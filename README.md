@@ -1,5 +1,3 @@
-![](monocraft.gif)
-
 # Hi, I'm Leo Martins 👋 
 
 ### 🎓 Boston University Computer Engineering Senior
