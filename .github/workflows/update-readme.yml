@@ -1,0 +1,104 @@
+name: Update Lines of Code in Readme
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Weekly on Sunday
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  count-lines:
+    runs-on: ubuntu-latest
+    env:
+      HIGHLIGHT_LANGS: "C++,C,Jupyter Notebook,JavaScript,TypeScript,JSX,Vuejs Component,PHP,C#,Python,Java,Go"
+      IGNORE_LANGS: "JSON,HTML,CSS,SCSS,Sass,Markdown,SVG,XML,YAML,TOML,CSV,Text,Properties,SQL,Po-file,Make,CMake,Assembly"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq cloc locales
+          sudo locale-gen en_US.UTF-8
+
+      - name: Fetch and Clone Repositories
+        env:
+          GH_PAT: ${{ secrets.GH_TOKEN_LOC }}
+        run: |
+          # Fetch all personal public repos
+          REPOS=$(curl -H "Authorization: token $GH_PAT" -s "https://api.github.com/user/repos?per_page=100" | jq -r '.[] | select(.fork == false) | .full_name')
+          
+          # Add the specific MakeyDooey firmware repos
+          SPECIFIC_REPOS="MakeyDooey/Firmware MakeyDooey/Firmware-STM32CubeIDE"
+          ALL_REPOS=$(echo -e "$REPOS\n$SPECIFIC_REPOS" | sort -u)
+
+          mkdir -p public-repos
+          cd public-repos
+
+          for REPO in $ALL_REPOS; do
+            REPO_URL="https://github.com/$REPO.git"
+            AUTHENTICATED_REPO="https://$GH_PAT@github.com/$REPO.git"
+            DEFAULT_BRANCH=$(curl -H "Authorization: token $GH_PAT" -s "https://api.github.com/repos/$REPO" | jq -r '.default_branch')
+            
+            echo "Cloning $REPO..."
+            git clone --branch "$DEFAULT_BRANCH" --single-branch --depth 1 "$AUTHENTICATED_REPO" "$(basename $REPO)" || echo "Skipping $REPO"
+          done
+
+          echo "Calculating lines of code..."
+          mkdir -p ../output
+          # EXCLUSIONS: Added Drivers and Middlewares to filter out ST-generated code
+          cloc . --json --report-file=../output/cloc-output.json \
+          --exclude-lang="${IGNORE_LANGS}" \
+          --exclude-dir=node_modules,vendor,dist,build,.git,.github,target,bin,obj,Debug,Release,mxproject,Drivers,Middlewares
+
+      - name: Commit and Push Output
+        env:
+          GH_PAT: ${{ secrets.GH_TOKEN_LOC }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          TOTAL_LINES=$(jq '.SUM.code // 0' output/cloc-output.json)
+          OTHER_LINES=0
+          FORMATTED_BREAKDOWN=""
+          HL=",$(echo "$HIGHLIGHT_LANGS" | tr -d ' '),"
+
+          while read -r entry; do
+            LANG_NAME=$(echo "$entry" | jq -r '.lang')
+            LINES=$(echo "$entry" | jq -r '.lines')
+
+            if [[ "$HL" == *",$LANG_NAME,"* ]]; then
+              FORMATTED=$(printf "%'d" "$LINES")
+              FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "$LANG_NAME" "$FORMATTED")$'\n'
+            else
+              OTHER_LINES=$((OTHER_LINES + LINES))
+            fi
+          done < <(jq -c 'to_entries | map(select(.key != "header" and .key != "SUM")) | map({lang: .key, lines: .value.code}) | .[]' output/cloc-output.json)
+
+          if [[ $OTHER_LINES -gt 0 ]]; then
+            FORMATTED_OTHER=$(printf "%'d" "$OTHER_LINES")
+            FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Others" "$FORMATTED_OTHER")$'\n'
+          fi
+
+          FORMATTED_TOTAL=$(printf "%'d" "$TOTAL_LINES")
+
+          # Build the updated block
+          {
+            echo ""
+            echo '```text'
+            echo "TOTAL LINES OF CODE: $FORMATTED_TOTAL"
+            echo "----------------------------------------"
+            echo "$FORMATTED_BREAKDOWN"
+            echo '```'
+            echo ""
+          } > new_block.txt
+
+          # Replace the block in README.md
+          perl -i -0777 -pe 's/.*?/`cat new_block.txt`/se' README.md
+
+          git add README.md output/cloc-output.json
+          git commit -m "chore: update code stats (excluded drivers/middlewares)" || echo "No changes"
+          git push origin HEAD
