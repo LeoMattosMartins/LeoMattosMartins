@@ -1,5 +1,22 @@
 
 ```text
+TOTAL LINES OF CODE: 29,495
+----------------------------------------
+C/C++ & Arduino      12,260 lines
+Python & Jupyter     4,914 lines
+Verilog              4,965 lines
+TypeScript           5,233 lines
+Java                 889 lines
+JavaScript           810 lines
+Bash                 129 lines
+Go                   156 lines
+MATLAB               82 lines
+PHP                  57 lines
+
+```
+
+
+```text
 TOTAL LINES OF CODE: 31,913
 ----------------------------------------
 C                    7,030 lines
