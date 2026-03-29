@@ -1,19 +1,18 @@
-# Hi, I'm Leo Martins 👋 
+# Currently Working On
 
-### BU Computer Engineering Senior
-*Minor in Data Science, Concentration in Machine Learning*
+ * _[MakeyDooey](https://github.com/MakeyDooey)_: An end-to-end development platform for real-time control applications, combining the accessibility of hobbyist microcontroller boards with the safety and robustness of industrial PLCs. The platform encompasses: a set of custom embedded boards, each with ruggedized modular enclosures, firmware for real-time deterministic control, a progressive web app IDE, and a demo element showcasing the extent of our platform’s capabilities involving the fine movement of a prosthetic hard. (2026 BU ECE Senior Design Project #13)
+
+ * _[OpenAI's Parameter Golf](https://github.com/openai/parameter-golf)_: with the goal to minimize held-out loss on a fixed FineWeb dataset while staying within a strict 16 MB artifact limit (weights + training code combined) and a 10-minute training budget on 8×H100s, I am working on a vector-field based approach loosely inspired by [this attempt](https://github.com/openai/parameter-golf/pull/663) and [this wave field tokeniser](https://github.com/denoflore/wave-field-llm). Currently waiting for approval on a computer grant to investigate this approach (tier 2 of the OpenAI + RunPod grant) with different hyper-parameters. I also plan on running this model using a RaspberryPi 5 to do some real-world benchmarking.
+
+ * _[monocraft-matrix](https://github.com/LeoMattosMartins/monocraft-matrix)_: In stress-testing some high-speed USART connections, I developed this program that bit-bangs characters across the screen similar to [cmatrix](https://github.com/abishekvashok/cmatrix). Its become quite useful to test the reliability of network connections as the sliding effect fails if a few characters are dropped, making it easy to check the code by eye. It also looks quite interesting, so I installed the monocraft font to turn the characters into the international galactic alphabet for a more sci-fi effect, making this background:
+
+![monocraft-gif](https://github.com/LeoMattosMartins/LeoMattosMartins/blob/main/monocraft.gif)
 
 ---
-* 🔭 **Currently working on:** **MakeyDooey**
-* 🧠 **Concentration:** AI (Specializing in Efficient Inference and Hardware Acceleration).
-* ⚡ **Obsessions:** Low-latency C, CUDA kernel optimization, SIMD, and squeezing TinyML models onto Edge hardware.
-* 📫 **Reach me at:** [leom@bu.edu](mailto:leom@bu.edu) | [LinkedIn](https://linkedin.com/in/leonardo-mattos-martins)
+# What I Work With
 
----
-
-## 🛠 Tech Stack
-
-```text
+## Tech Stack
+```
 TOTAL LINES OF CODE: 29,495
 ----------------------------------------
 C/C++               12,260 lines
@@ -28,12 +27,7 @@ PHP                     57 lines
 ----------------------------------------
 Last Updated: 2026-03-29 15:09 UTC
 ```
+## Libraries and Framworks
 
-### 🤖 AI & GPU Acceleration
-* **Inference:** TensorRT, ONNX Runtime, TVM, TensorFlow Lite.
-* **Compute:** **CUDA**, OpenCL, GPU Kernels, pthreads, OpenMP.
-* **Frameworks:** PyTorch, NumPy, Scikit-learn, Jax.
-
-### 🔋 Full-Stack
-* **Hardware:** NVIDIA Jetson, STM32 (ARM Cortex-M), ESP32, FPGA (Verilog), Arduino, Raspberry Pi.
-* **Backend:** FastAPI (High-performance async), Node.js, PostgreSQL, Docker.
+* Python: Numpy, Matplotlib, JAX, FLAX, TensorFlow, scikit-learn
+---
