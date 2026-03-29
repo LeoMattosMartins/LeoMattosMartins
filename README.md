@@ -1,4 +1,21 @@
 
+```text
+TOTAL LINES OF CODE: 29,495
+----------------------------------------
+C/C++               12,260 lines
+Python               4,914 lines
+JS/TypeScript        6,043 lines
+Verilog              4,965 lines
+Java                   889 lines
+Bash                   129 lines
+Go                     156 lines
+MATLAB                  82 lines
+PHP                     57 lines
+----------------------------------------
+Last Updated: 2026-03-29 15:09 UTC
+```
+
+
 # Hi, I'm Leo Martins 👋 
 
 ### BU Computer Engineering Senior
