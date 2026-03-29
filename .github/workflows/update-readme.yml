@@ -63,7 +63,7 @@ jobs:
 
           JSON_DATA=$(cat output/cloc-output.json)
           
-          # Mapping and Merging Logic
+          # Merging Logic
           C_TOTAL=$(echo "$JSON_DATA" | jq -r '."C".code + ."C++".code + ."C/C++ Header".code + ."Arduino Sketch".code // 0')
           PYTHON_TOTAL=$(echo "$JSON_DATA" | jq -r '."Python".code + ."Jupyter Notebook".code // 0')
           JS_TS_TOTAL=$(echo "$JSON_DATA" | jq -r '."TypeScript".code + ."JavaScript".code // 0')
@@ -74,39 +74,38 @@ jobs:
           GO_TOTAL=$(echo "$JSON_DATA" | jq -r '."Go".code // 0')
           PHP_TOTAL=$(echo "$JSON_DATA" | jq -r '."PHP".code // 0')
 
-          # Calculate total from ONLY these selected languages
           GRAND_TOTAL=$((C_TOTAL + PYTHON_TOTAL + JS_TS_TOTAL + VERILOG_TOTAL + JAVA_TOTAL + BASH_TOTAL + MATLAB_TOTAL + GO_TOTAL + PHP_TOTAL))
 
           fmt() { printf "%'d" "$1"; }
+          
+          # Current Date for the "Last Updated" footer
+          UPDATED_AT=$(date -u +"%Y-%m-%d %H:%M UTC")
 
-          # Build the formatted strings
-          FORMATTED_BREAKDOWN=""
-          [[ $C_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "C/C++" "$(fmt $C_TOTAL)")$'\n'
-          [[ $PYTHON_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Python" "$(fmt $PYTHON_TOTAL)")$'\n'
-          [[ $JS_TS_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "JS/TypeScript" "$(fmt $JS_TS_TOTAL)")$'\n'
-          [[ $VERILOG_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Verilog" "$(fmt $VERILOG_TOTAL)")$'\n'
-          [[ $JAVA_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Java" "$(fmt $JAVA_TOTAL)")$'\n'
-          [[ $BASH_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Bash" "$(fmt $BASH_TOTAL)")$'\n'
-          [[ $GO_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "Go" "$(fmt $GO_TOTAL)")$'\n'
-          [[ $MATLAB_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "MATLAB" "$(fmt $MATLAB_TOTAL)")$'\n'
-          [[ $PHP_TOTAL -gt 0 ]] && FORMATTED_BREAKDOWN+=$(printf "%-20s %s lines\n" "PHP" "$(fmt $PHP_TOTAL)")$'\n'
-
-          # Prepare the block
+          # Build the block
           {
             echo ""
             echo '```text'
             echo "TOTAL LINES OF CODE: $(fmt $GRAND_TOTAL)"
             echo "----------------------------------------"
-            echo "$FORMATTED_BREAKDOWN"
+            [[ $C_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "C/C++" "$(fmt $C_TOTAL)"
+            [[ $PYTHON_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Python" "$(fmt $PYTHON_TOTAL)"
+            [[ $JS_TS_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "JS/TypeScript" "$(fmt $JS_TS_TOTAL)"
+            [[ $VERILOG_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Verilog" "$(fmt $VERILOG_TOTAL)"
+            [[ $JAVA_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Java" "$(fmt $JAVA_TOTAL)"
+            [[ $BASH_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Bash" "$(fmt $BASH_TOTAL)"
+            [[ $GO_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Go" "$(fmt $GO_TOTAL)"
+            [[ $MATLAB_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "MATLAB" "$(fmt $MATLAB_TOTAL)"
+            [[ $PHP_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "PHP" "$(fmt $PHP_TOTAL)"
+            echo "----------------------------------------"
+            echo "Last Updated: $UPDATED_AT"
             echo '```'
             echo ""
           } > new_block.txt
 
-          # The Perl regex handles the "Delete and Replace" between the markers
+          # Atomic replacement
           perl -i -0777 -pe 's/.*?/`cat new_block.txt`/se' README.md
 
-          # Ensure we use the token for the push to avoid the 403 error
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN_LOC }}@github.com/${{ github.repository }}.git
           git add README.md output/cloc-output.json
-          git commit -m "chore: updated code stats with merged categories" || echo "No changes to commit"
+          git commit -m "chore: refresh code stats" || echo "No changes"
           git push origin HEAD
