@@ -1,0 +1,129 @@
+{"header" : {
+  "cloc_url"           : "github.com/AlDanial/cloc",
+  "cloc_version"       : "1.98",
+  "elapsed_seconds"    : 0.252859830856323,
+  "n_files"            : 382,
+  "n_lines"            : 53976,
+  "files_per_second"   : 1510.71840357694,
+  "lines_per_second"   : 213462.13756929,
+  "report_file"        : "../output/cloc-output.json"},
+"C" :{
+  "nFiles": 48,
+  "blank": 2110,
+  "comment": 3644,
+  "code": 7030},
+"TypeScript" :{
+  "nFiles": 35,
+  "blank": 672,
+  "comment": 448,
+  "code": 5233},
+"Verilog-SystemVerilog" :{
+  "nFiles": 119,
+  "blank": 1312,
+  "comment": 1872,
+  "code": 4965},
+"C/C++ Header" :{
+  "nFiles": 30,
+  "blank": 846,
+  "comment": 1565,
+  "code": 3183},
+"Python" :{
+  "nFiles": 41,
+  "blank": 949,
+  "comment": 1005,
+  "code": 2905},
+"Jupyter Notebook" :{
+  "nFiles": 6,
+  "blank": 0,
+  "comment": 4357,
+  "code": 2009},
+"Arduino Sketch" :{
+  "nFiles": 14,
+  "blank": 463,
+  "comment": 610,
+  "code": 1949},
+"Linker Script" :{
+  "nFiles": 8,
+  "blank": 227,
+  "comment": 373,
+  "code": 1053},
+"Java" :{
+  "nFiles": 14,
+  "blank": 284,
+  "comment": 482,
+  "code": 889},
+"JavaScript" :{
+  "nFiles": 23,
+  "blank": 113,
+  "comment": 52,
+  "code": 810},
+"TeX" :{
+  "nFiles": 4,
+  "blank": 112,
+  "comment": 62,
+  "code": 534},
+"Drools" :{
+  "nFiles": 2,
+  "blank": 0,
+  "comment": 0,
+  "code": 328},
+"make" :{
+  "nFiles": 7,
+  "blank": 91,
+  "comment": 132,
+  "code": 262},
+"Go" :{
+  "nFiles": 4,
+  "blank": 37,
+  "comment": 0,
+  "code": 156},
+"Gradle" :{
+  "nFiles": 6,
+  "blank": 15,
+  "comment": 2,
+  "code": 140},
+"Bourne Shell" :{
+  "nFiles": 2,
+  "blank": 23,
+  "comment": 36,
+  "code": 129},
+"C++" :{
+  "nFiles": 1,
+  "blank": 19,
+  "comment": 9,
+  "code": 98},
+"MATLAB" :{
+  "nFiles": 5,
+  "blank": 28,
+  "comment": 47,
+  "code": 82},
+"DOS Batch" :{
+  "nFiles": 1,
+  "blank": 21,
+  "comment": 2,
+  "code": 66},
+"PHP" :{
+  "nFiles": 3,
+  "blank": 14,
+  "comment": 2,
+  "code": 57},
+"INI" :{
+  "nFiles": 7,
+  "blank": 0,
+  "comment": 0,
+  "code": 19},
+"Dockerfile" :{
+  "nFiles": 1,
+  "blank": 4,
+  "comment": 2,
+  "code": 16},
+"ProGuard" :{
+  "nFiles": 1,
+  "blank": 3,
+  "comment": 18,
+  "code": 0},
+"SUM": {
+  "blank": 7343,
+  "comment": 14720,
+  "code": 31913,
+  "nFiles": 382} }

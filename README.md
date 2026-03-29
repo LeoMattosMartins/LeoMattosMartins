@@ -1,3 +1,19 @@
+
+```text
+TOTAL LINES OF CODE: 31,913
+----------------------------------------
+C                    7,030 lines
+TypeScript           5,233 lines
+Python               2,905 lines
+Java                 889 lines
+JavaScript           810 lines
+Go                   156 lines
+C++                  98 lines
+PHP                  57 lines
+Others               14,735 lines
+
+```
+
 # Hi, I'm Leo Martins 👋 
 
 ### 🎓 Boston University Computer Engineering Senior
