@@ -7,6 +7,7 @@ import 'xterm/css/xterm.css';
 import { fetchGitHubProjects } from '../services/githubService';
 import { useAppContext } from '../context/AppContext';
 import ProjectsPortal from './ProjectsPortal';
+import readmeContent from '../../README.md?raw';
 
 const themeMap = {
   dark: {
@@ -35,12 +36,13 @@ const nextLanguage = (current) => {
 const ANSI = {
   reset: '\u001b[0m',
   cyan: '\u001b[38;2;127;177;255m',
-  red: '\u001b[31m'
+  red: '\u001b[31m',
+  pink: '\u001b[38;2;255;105;180m'
 };
 
 const OUTPUT_STORAGE_KEY = 'leo_terminal_output_v1';
 const COMMAND_HISTORY_STORAGE_KEY = 'leo_terminal_command_history_v1';
-const COMMANDS = ['help', 'projects', 'work', 'resume', 'lang', 'clear'];
+const COMMANDS = ['help', 'projects', 'work', 'tech-stack', 'a11y', 'resume', 'lang', 'clear'];
 const TYPE_BASE_DELAY_MS = 22;
 const TYPE_VARIANCE_MS = 34;
 const SECTION_PAUSE_MS = 240;
@@ -49,6 +51,13 @@ const PUNCTUATION_PAUSE_MS = 70;
 const SOUND_COOLDOWN_MS = 36;
 
 const color = (text, tone) => `${ANSI[tone]}${text}${ANSI.reset}`;
+
+const extractTotalLinesOfCode = (content) => {
+  const techStackSection = content.match(/##\s+Tech Stack([\s\S]*?)(?:\n##\s|$)/i);
+  const source = techStackSection?.[1] ?? content;
+  const totalMatch = source.match(/TOTAL\s+LINES\s+OF\s+CODE:\s*([\d,]+)/i);
+  return totalMatch?.[1] ?? 'N/A';
+};
 
 const TerminalShell = ({ theme, onClearTrigger }) => {
   const containerRef = useRef(null);
@@ -71,6 +80,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   const [projects, setProjects] = useState([]);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [commandInput, setCommandInput] = useState('');
+  const totalLinesOfCode = useMemo(() => extractTotalLinesOfCode(readmeContent), []);
 
   const prompt = useMemo(() => `${t('terminal.prompt')} `, [t]);
 
@@ -91,6 +101,14 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     } catch (_error) {
       // no-op
     }
+  }, []);
+
+  const triggerHapticError = useCallback(() => {
+    if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') {
+      return;
+    }
+
+    navigator.vibrate([25, 35, 25]);
   }, []);
 
   const persistCommandHistory = useCallback(() => {
@@ -139,7 +157,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
       oscillator.frequency.value = 130 + Math.random() * 110;
 
       gain.gain.setValueAtTime(0.0001, startAt);
-      gain.gain.exponentialRampToValueAtTime(0.02, startAt + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.01, startAt + 0.002);
       gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.03);
 
       oscillator.connect(gain);
@@ -278,9 +296,34 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     writeln(`help            ${t('commands.help')}`);
     writeln(`projects        ${t('commands.projects')}`);
     writeln(`work            ${t('commands.work')}`);
+    writeln(`tech-stack      ${t('commands.techStack')}`);
+    writeln(`a11y            ${t('commands.a11y')}`);
     writeln(`resume          ${t('commands.resume')}`);
     writeln(`lang            ${t('commands.lang')}`);
     writeln(`clear           ${t('commands.clear')}`);
+  }, [t, writeln]);
+
+  const printTechStack = useCallback(() => {
+    writeln(color(t('terminal.techStackHeader'), 'cyan'));
+    writeln(`${t('terminal.totalLinesOfCode')}: ${color(totalLinesOfCode, 'cyan')}`);
+    writeln('');
+    writeln(color('Languages & Databases', 'cyan'));
+    writeln('Python, C/C++, Go, Java, JavaScript, SQL, PostgreSQL, MongoDB');
+    writeln('');
+    writeln(color('AI & Machine Learning', 'cyan'));
+    writeln('PyTorch, TensorFlow, JAX, Scikit-learn, TensorRT, LLMs (Llama), CUDA');
+    writeln('');
+    writeln(color('Tools & Infrastructure', 'cyan'));
+    writeln('Docker, Kubernetes, Git, CI/CD, Linux, REST APIs, pandas, Agile/Scrum');
+  }, [t, totalLinesOfCode, writeln]);
+
+  const printA11y = useCallback(() => {
+    writeln(color(t('terminal.accessibilityHeader'), 'cyan'));
+    writeln(t('terminal.helpUsageHistory'));
+    writeln(t('terminal.helpUsageAutocomplete'));
+    writeln(t('terminal.helpUsageSkip'));
+    writeln(t('terminal.helpUsageAccessibility'));
+    writeln(t('terminal.accessibilityHint'));
   }, [t, writeln]);
 
   const printWork = useCallback(() => {
@@ -339,9 +382,19 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
         case 'work':
           printWork();
           break;
+        case 'techstack':
+        case 'tech-stack':
+          printTechStack();
+          break;
+        case 'a11y':
+          printA11y();
+          break;
         case 'resume':
           window.open(`${import.meta.env.BASE_URL}resume.pdf`, '_blank', 'noopener,noreferrer');
           writeln(color(t('terminal.openingResume'), 'cyan'));
+          break;
+        case 'urvi':
+          writeln(color('<3', 'pink'));
           break;
         case 'lang': {
           const language = nextLanguage(i18n.language);
@@ -371,6 +424,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           break;
         default:
           writeln(color(`${t('terminal.unknown')}: ${command}`, 'red'));
+          triggerHapticError();
       }
 
       if (command && command !== 'clear') {
@@ -385,12 +439,15 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
       onClearTrigger,
       printHelp,
       printProjects,
+      printA11y,
+      printTechStack,
       printWork,
       persistCommandHistory,
       persistOutput,
       prompt,
       setProjectsVisible,
       t,
+      triggerHapticError,
       writeln
     ]
   );
@@ -542,6 +599,8 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
             }}
             onKeyDown={handleInputKeyDown}
             aria-label={t('terminal.inputAria')}
+            aria-keyshortcuts="Enter ArrowUp ArrowDown Tab Escape"
+            aria-describedby="terminal-shortcuts-hint"
             className="terminal-input"
             autoCapitalize="off"
             autoCorrect="off"
@@ -554,6 +613,9 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
             </div>
           ) : null}
         </div>
+        <span id="terminal-shortcuts-hint" className="sr-only">
+          {t('terminal.helpUsageHistory')} {t('terminal.helpUsageAutocomplete')} {t('terminal.helpUsageSkip')}
+        </span>
       </form>
     </section>
   );
