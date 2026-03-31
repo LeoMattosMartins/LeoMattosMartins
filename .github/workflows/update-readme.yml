@@ -1,0 +1,111 @@
+name: Update Lines of Code in Readme
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Weekly on Sunday
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  count-lines:
+    runs-on: ubuntu-latest
+    env:
+      HIGHLIGHT_LANGS: "C++,C,Jupyter Notebook,JavaScript,TypeScript,JSX,Vuejs Component,PHP,C#,Python,Java,Go"
+      IGNORE_LANGS: "JSON,HTML,CSS,SCSS,Sass,Markdown,SVG,XML,YAML,TOML,CSV,Text,Properties,SQL,Po-file,Make,CMake,Assembly"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq cloc locales
+          sudo locale-gen en_US.UTF-8
+
+      - name: Fetch and Clone Repositories
+        env:
+          GH_PAT: ${{ secrets.GH_TOKEN_LOC }}
+        run: |
+          # Fetch all personal public repos
+          REPOS=$(curl -H "Authorization: token $GH_PAT" -s "https://api.github.com/user/repos?per_page=100" | jq -r '.[] | select(.fork == false) | .full_name')
+          
+          # Add the specific MakeyDooey firmware repos
+          SPECIFIC_REPOS="MakeyDooey/Firmware MakeyDooey/Firmware-STM32CubeIDE"
+          ALL_REPOS=$(echo -e "$REPOS\n$SPECIFIC_REPOS" | sort -u)
+
+          mkdir -p public-repos
+          cd public-repos
+
+          for REPO in $ALL_REPOS; do
+            REPO_URL="https://github.com/$REPO.git"
+            AUTHENTICATED_REPO="https://$GH_PAT@github.com/$REPO.git"
+            DEFAULT_BRANCH=$(curl -H "Authorization: token $GH_PAT" -s "https://api.github.com/repos/$REPO" | jq -r '.default_branch')
+            
+            echo "Cloning $REPO..."
+            git clone --branch "$DEFAULT_BRANCH" --single-branch --depth 1 "$AUTHENTICATED_REPO" "$(basename $REPO)" || echo "Skipping $REPO"
+          done
+
+          echo "Calculating lines of code..."
+          mkdir -p ../output
+          # EXCLUSIONS: Added Drivers and Middlewares to filter out ST-generated code
+          cloc . --json --report-file=../output/cloc-output.json \
+          --exclude-lang="${IGNORE_LANGS}" \
+          --exclude-dir=node_modules,vendor,dist,build,.git,.github,target,bin,obj,Debug,Release,mxproject,Drivers,Middlewares
+
+      - name: Commit and Push Output
+        env:
+          GH_PAT: ${{ secrets.GH_TOKEN_LOC }}
+          LC_ALL: "en_US.UTF-8"
+          LANG: "en_US.UTF-8"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          JSON_DATA=$(cat output/cloc-output.json)
+          
+          # Merging Logic
+          C_TOTAL=$(echo "$JSON_DATA" | jq -r '."C".code + ."C++".code + ."C/C++ Header".code + ."Arduino Sketch".code // 0')
+          PYTHON_TOTAL=$(echo "$JSON_DATA" | jq -r '."Python".code + ."Jupyter Notebook".code // 0')
+          JS_TS_TOTAL=$(echo "$JSON_DATA" | jq -r '."TypeScript".code + ."JavaScript".code // 0')
+          VERILOG_TOTAL=$(echo "$JSON_DATA" | jq -r '."Verilog-SystemVerilog".code // 0')
+          JAVA_TOTAL=$(echo "$JSON_DATA" | jq -r '."Java".code // 0')
+          BASH_TOTAL=$(echo "$JSON_DATA" | jq -r '."Bourne Shell".code // 0')
+          MATLAB_TOTAL=$(echo "$JSON_DATA" | jq -r '."MATLAB".code // 0')
+          GO_TOTAL=$(echo "$JSON_DATA" | jq -r '."Go".code // 0')
+          PHP_TOTAL=$(echo "$JSON_DATA" | jq -r '."PHP".code // 0')
+
+          GRAND_TOTAL=$((C_TOTAL + PYTHON_TOTAL + JS_TS_TOTAL + VERILOG_TOTAL + JAVA_TOTAL + BASH_TOTAL + MATLAB_TOTAL + GO_TOTAL + PHP_TOTAL))
+
+          fmt() { printf "%'d" "$1"; }
+          
+          # Current Date for the "Last Updated" footer
+          UPDATED_AT=$(date -u +"%Y-%m-%d %H:%M UTC")
+
+          # Build the block
+          {
+            echo ""
+            echo '```text'
+            echo "TOTAL LINES OF CODE: $(fmt $GRAND_TOTAL)"
+            echo "----------------------------------------"
+            [[ $C_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "C/C++" "$(fmt $C_TOTAL)"
+            [[ $PYTHON_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Python" "$(fmt $PYTHON_TOTAL)"
+            [[ $JS_TS_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "JS/TypeScript" "$(fmt $JS_TS_TOTAL)"
+            [[ $VERILOG_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Verilog" "$(fmt $VERILOG_TOTAL)"
+            [[ $JAVA_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Java" "$(fmt $JAVA_TOTAL)"
+            [[ $BASH_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Bash" "$(fmt $BASH_TOTAL)"
+            [[ $GO_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "Go" "$(fmt $GO_TOTAL)"
+            [[ $MATLAB_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "MATLAB" "$(fmt $MATLAB_TOTAL)"
+            [[ $PHP_TOTAL -gt 0 ]] && printf "%-15s %10s lines\n" "PHP" "$(fmt $PHP_TOTAL)"
+            echo "----------------------------------------"
+            echo "Last Updated: $UPDATED_AT"
+            echo '```'
+            echo ""
+          } > new_block.txt
+
+          # Atomic replacement
+          perl -i -0777 -pe 's/.*?/`cat new_block.txt`/se' README.md
+
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN_LOC }}@github.com/${{ github.repository }}.git
+          git add README.md output/cloc-output.json
+          git commit -m "chore: refresh code stats" || echo "No changes"
+          git push origin HEAD
