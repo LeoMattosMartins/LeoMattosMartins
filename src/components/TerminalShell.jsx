@@ -297,10 +297,11 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     writeln(`projects        ${t('commands.projects')}`);
     writeln(`work            ${t('commands.work')}`);
     writeln(`tech-stack      ${t('commands.techStack')}`);
-    writeln(`a11y            ${t('commands.a11y')}`);
     writeln(`resume          ${t('commands.resume')}`);
-    writeln(`lang            ${t('commands.lang')}`);
     writeln(`clear           ${t('commands.clear')}`);
+    writeln('');
+    writeln(`lang            ${t('commands.lang')}`);
+    writeln(`a11y            ${t('commands.a11y')}`);
   }, [t, writeln]);
 
   const printTechStack = useCallback(() => {
@@ -519,16 +520,17 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const submittedCommand = commandInput;
 
     if (pendingWritesRef.current > 0) {
       skipTypingRef.current = true;
-      if (!commandInput.trim()) {
+      if (!submittedCommand.trim()) {
         return;
       }
     }
 
-    await execute(commandInput);
     setCommandInput('');
+    await execute(submittedCommand);
   };
 
   const handleInputKeyDown = (event) => {
