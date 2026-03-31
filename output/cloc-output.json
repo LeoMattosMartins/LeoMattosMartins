@@ -1,17 +1,17 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.271573066711426,
-  "n_files"            : 382,
-  "n_lines"            : 53976,
-  "files_per_second"   : 1406.61960563974,
-  "lines_per_second"   : 198753.140926729,
+  "elapsed_seconds"    : 0.271339893341064,
+  "n_files"            : 402,
+  "n_lines"            : 55883,
+  "files_per_second"   : 1481.53666256034,
+  "lines_per_second"   : 205952.023168805,
   "report_file"        : "../output/cloc-output.json"},
 "C" :{
-  "nFiles": 48,
-  "blank": 2110,
-  "comment": 3644,
-  "code": 7030},
+  "nFiles": 52,
+  "blank": 2146,
+  "comment": 3670,
+  "code": 7285},
 "TypeScript" :{
   "nFiles": 35,
   "blank": 672,
@@ -32,31 +32,36 @@
   "blank": 949,
   "comment": 1005,
   "code": 2905},
+"Arduino Sketch" :{
+  "nFiles": 16,
+  "blank": 502,
+  "comment": 628,
+  "code": 2127},
 "Jupyter Notebook" :{
   "nFiles": 6,
   "blank": 0,
   "comment": 4357,
   "code": 2009},
-"Arduino Sketch" :{
-  "nFiles": 14,
-  "blank": 463,
-  "comment": 610,
-  "code": 1949},
 "Linker Script" :{
   "nFiles": 8,
   "blank": 227,
   "comment": 373,
   "code": 1053},
+"JSX" :{
+  "nFiles": 8,
+  "blank": 181,
+  "comment": 4,
+  "code": 1013},
+"JavaScript" :{
+  "nFiles": 29,
+  "blank": 132,
+  "comment": 53,
+  "code": 947},
 "Java" :{
   "nFiles": 14,
   "blank": 284,
   "comment": 482,
   "code": 889},
-"JavaScript" :{
-  "nFiles": 23,
-  "blank": 113,
-  "comment": 52,
-  "code": 810},
 "TeX" :{
   "nFiles": 4,
   "blank": 112,
@@ -123,7 +128,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 7343,
-  "comment": 14720,
-  "code": 31913,
-  "nFiles": 382} }
+  "blank": 7618,
+  "comment": 14769,
+  "code": 33496,
+  "nFiles": 402} }
