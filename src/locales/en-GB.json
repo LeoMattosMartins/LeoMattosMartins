@@ -8,18 +8,69 @@
     "projects": "Display GitHub project widgets",
     "work": "Show work experience summary",
     "resume": "Open resume PDF in a new tab",
-    "lang": "Toggle language",
+    "lang": "Cycle language (en-GB, pt-BR, es-ES)",
     "clear": "Clear terminal and replay boot"
   },
   "terminal": {
     "prompt": "user@leo-portfolio:~$",
+    "helpBlurbTitle": "ABOUT THIS PORTFOLIO",
+    "helpBlurbBody": "Interactive terminal portfolio showcasing my projects, work, and engineering focus.",
+    "helpUsageHistory": "Use ArrowUp/ArrowDown to navigate command history.",
+    "helpUsageAutocomplete": "Use Tab to autocomplete commands and use the ghost text hint while typing.",
+    "helpUsageAccessibility": "Use toolbar controls for theme and high contrast; press Esc to close the project panel.",
+    "helpHeader": "COMMAND         DESCRIPTION",
     "loadingProjects": "Loading project stream...",
+    "projectsLoaded": "Loaded {{count}} repositories. Press Esc to hide the project panel.",
+    "githubUnavailable": "GitHub API unavailable right now.",
     "loadingWork": "Loading work record...",
+    "workHeading": "What I've been working on",
+    "openingResume": "Opening resume...",
     "unknown": "Unknown command",
-    "languageSwitched": "Language switched to {{lang}}"
+    "languageSwitched": "Language switched to {{lang}}",
+    "inputAria": "Terminal Input"
   },
   "header": {
     "name": "Leonardo Mattos Martins",
     "role": "Embedded Systems • AI • Full Stack"
+  },
+  "toolbar": {
+    "toggleTheme": "Toggle theme",
+    "toggleContrast": "Toggle high contrast",
+    "contrast": "Contrast"
+  },
+  "projects": {
+    "portalHint": "PROJECTS • Press Esc to close",
+    "openOnGitHub": "Open on GitHub"
+  },
+  "work": {
+    "entries": [
+      {
+        "company": "MakeyDooey",
+        "title": "Embedded + Full Stack Engineer",
+        "bullets": [
+          "Built robust modular embedded boards and deterministic control firmware.",
+          "Developed a PWA IDE for real-time control workflows.",
+          "Delivered a prosthetic hand precision-control demonstration."
+        ]
+      },
+      {
+        "company": "OpenAI Parameter Golf",
+        "title": "Research Contributor",
+        "bullets": [
+          "Explored vector-field model approaches for strict artifact budgets.",
+          "Prepared experiments for 8xH100 constrained training windows.",
+          "Designed low-power benchmarking plans on Raspberry Pi 5."
+        ]
+      },
+      {
+        "company": "Independent Projects",
+        "title": "Systems Builder",
+        "bullets": [
+          "Created monocraft-matrix for visual serial/network stress testing.",
+          "Applied sci-fi rendering aesthetics using custom Monocraft glyphs.",
+          "Bridged embedded systems, AI experimentation, and product UX."
+        ]
+      }
+    ]
   }
 }

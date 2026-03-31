@@ -1,6 +1,6 @@
 {
   "boot": {
-    "ready": "Sistemas galácticos en línea.",
+    "ready": "Terminal de Portafolio de Leo",
     "hint": "Escribe 'help' para ver los comandos."
   },
   "commands": {
@@ -8,18 +8,69 @@
     "projects": "Mostrar widgets de proyectos de GitHub",
     "work": "Mostrar resumen de experiencia",
     "resume": "Abrir el CV en una nueva pestaña",
-    "lang": "Cambiar idioma",
+    "lang": "Cambiar idioma (en-GB, pt-BR, es-ES)",
     "clear": "Limpiar terminal y repetir arranque"
   },
   "terminal": {
-    "prompt": "leo@galactic:~$",
+    "prompt": "user@leo-portfolio:~$",
+    "helpBlurbTitle": "SOBRE ESTE PORTAFOLIO",
+    "helpBlurbBody": "Portafolio interactivo tipo terminal para mostrar mis proyectos, experiencia y enfoque de ingeniería.",
+    "helpUsageHistory": "Usa Flecha Arriba/Flecha Abajo para navegar por el historial de comandos.",
+    "helpUsageAutocomplete": "Usa Tab para autocompletar comandos y la pista de ghost text mientras escribes.",
+    "helpUsageAccessibility": "Usa los controles de la barra para tema y alto contraste; pulsa Esc para cerrar el panel de proyectos.",
+    "helpHeader": "COMANDO         DESCRIPCIÓN",
     "loadingProjects": "Cargando stream de proyectos...",
+    "projectsLoaded": "{{count}} repositorios cargados. Pulsa Esc para cerrar el panel de proyectos.",
+    "githubUnavailable": "La API de GitHub no está disponible en este momento.",
     "loadingWork": "Cargando historial profesional...",
+    "workHeading": "En lo que he estado trabajando",
+    "openingResume": "Abriendo currículum...",
     "unknown": "Comando desconocido",
-    "languageSwitched": "Idioma cambiado a {{lang}}"
+    "languageSwitched": "Idioma cambiado a {{lang}}",
+    "inputAria": "Entrada de terminal"
   },
   "header": {
     "name": "Leonardo Mattos Martins",
     "role": "Sistemas Embebidos • IA • Full Stack"
+  },
+  "toolbar": {
+    "toggleTheme": "Cambiar tema",
+    "toggleContrast": "Alternar alto contraste",
+    "contrast": "Contraste"
+  },
+  "projects": {
+    "portalHint": "PROYECTOS • Pulsa Esc para cerrar",
+    "openOnGitHub": "Abrir en GitHub"
+  },
+  "work": {
+    "entries": [
+      {
+        "company": "MakeyDooey",
+        "title": "Ingeniero de Embebidos + Full Stack",
+        "bullets": [
+          "Construí placas embebidas modulares robustas y firmware de control determinista.",
+          "Desarrollé un IDE PWA para flujos de control en tiempo real.",
+          "Entregué una demostración de control de precisión para una mano protésica."
+        ]
+      },
+      {
+        "company": "OpenAI Parameter Golf",
+        "title": "Colaborador de Investigación",
+        "bullets": [
+          "Exploré enfoques de modelos por campo vectorial con presupuestos estrictos de artefactos.",
+          "Preparé experimentos para ventanas de entrenamiento limitadas con 8xH100.",
+          "Diseñé planes de benchmarking de bajo consumo en Raspberry Pi 5."
+        ]
+      },
+      {
+        "company": "Proyectos Independientes",
+        "title": "Constructor de Sistemas",
+        "bullets": [
+          "Creé monocraft-matrix para pruebas visuales de estrés serial y de red.",
+          "Apliqué estética sci-fi de renderizado usando glifos Monocraft personalizados.",
+          "Conecté sistemas embebidos, experimentación en IA y UX de producto."
+        ]
+      }
+    ]
   }
 }

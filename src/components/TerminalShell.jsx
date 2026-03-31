@@ -4,7 +4,6 @@ import { FitAddon } from 'xterm-addon-fit';
 import { useTranslation } from 'react-i18next';
 import 'xterm/css/xterm.css';
 
-import resumeData from '../data/resume.json';
 import { fetchGitHubProjects } from '../services/githubService';
 import { useAppContext } from '../context/AppContext';
 import ProjectsPortal from './ProjectsPortal';
@@ -98,7 +97,13 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
 
   const printHelp = useCallback(() => {
     writeln('');
-    writeln(color('COMMAND         DESCRIPTION', 'cyan'));
+    writeln(color(t('terminal.helpBlurbTitle'), 'cyan'));
+    writeln(t('terminal.helpBlurbBody'));
+    writeln(t('terminal.helpUsageHistory'));
+    writeln(t('terminal.helpUsageAutocomplete'));
+    writeln(t('terminal.helpUsageAccessibility'));
+    writeln('');
+    writeln(color(t('terminal.helpHeader'), 'cyan'));
     writeln(`help            ${t('commands.help')}`);
     writeln(`projects        ${t('commands.projects')}`);
     writeln(`work            ${t('commands.work')}`);
@@ -108,10 +113,16 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   }, [t, writeln]);
 
   const printWork = useCallback(() => {
-    writeln(color("What I've been working on", 'cyan'));
+    const entries = t('work.entries', { returnObjects: true });
+
+    writeln(color(t('terminal.workHeading'), 'cyan'));
     writeln(t('terminal.loadingWork'));
 
-    resumeData.forEach((entry) => {
+    if (!Array.isArray(entries)) {
+      return;
+    }
+
+    entries.forEach((entry) => {
       writeln('');
       writeln(`${color(entry.company, 'cyan')} — ${entry.title}`);
       entry.bullets.slice(0, 3).forEach((bullet) => {
@@ -127,9 +138,9 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
       const data = await fetchGitHubProjects(i18n.language);
       setProjects(data);
       setProjectsVisible(true);
-      writeln(color(`Loaded ${data.length} repositories. Press Esc to hide the project panel.`, 'cyan'));
+      writeln(color(t('terminal.projectsLoaded', { count: data.length }), 'cyan'));
     } catch (_error) {
-      writeln(color('GitHub API unavailable right now.', 'red'));
+      writeln(color(t('terminal.githubUnavailable'), 'red'));
       setProjects([]);
       setProjectsVisible(false);
     }
@@ -158,8 +169,8 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           printWork();
           break;
         case 'resume':
-          window.open('/resume.pdf', '_blank', 'noopener,noreferrer');
-          writeln(color('Opening resume...', 'cyan'));
+          window.open(`${import.meta.env.BASE_URL}resume.pdf`, '_blank', 'noopener,noreferrer');
+          writeln(color(t('terminal.openingResume'), 'cyan'));
           break;
         case 'lang': {
           const language = nextLanguage(i18n.language);
@@ -331,7 +342,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
               setCommandInput(event.target.value);
             }}
             onKeyDown={handleInputKeyDown}
-            aria-label="Terminal Input"
+            aria-label={t('terminal.inputAria')}
             className="terminal-input"
             autoCapitalize="off"
             autoCorrect="off"

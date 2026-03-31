@@ -1,9 +1,13 @@
+import { useTranslation } from 'react-i18next';
+
 const ProjectsPortal = ({ projects, visible }) => {
+  const { t } = useTranslation();
+
   if (!projects.length || !visible) return null;
 
   return (
     <div className="project-portal">
-      <p className="project-portal-hint">PROJECTS • Press Esc to close</p>
+      <p className="project-portal-hint">{t('projects.portalHint')}</p>
       <div className="project-rail">
         {projects.map((project) => (
           <article key={project.id} className="project-card">
@@ -18,7 +22,7 @@ const ProjectsPortal = ({ projects, visible }) => {
               rel="noreferrer"
               className="mt-3 inline-block text-xs underline"
             >
-              Open on GitHub
+              {t('projects.openOnGitHub')}
             </a>
           </article>
         ))}
