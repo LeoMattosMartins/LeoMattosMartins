@@ -59,8 +59,8 @@ body {
 }
 
 .toolbar-dock {
-  bottom: 1rem;
-  right: 1rem;
+  top: 1rem;
+  left: 1rem;
 }
 
 .toolbar-btn {
@@ -181,12 +181,15 @@ body {
   .site-shell {
     border-width: 2px;
     padding: 0.35rem;
+    padding-top: 2.7rem;
   }
 
   .toolbar-dock {
-    right: 0.55rem;
-    bottom: calc(4.75rem + env(safe-area-inset-bottom));
-    flex-direction: column;
+    top: calc(0.45rem + env(safe-area-inset-top));
+    left: 0.45rem;
+    right: auto;
+    bottom: auto;
+    flex-direction: row;
     gap: 0.35rem;
   }
 
@@ -211,5 +214,16 @@ body {
   .terminal-input-ghost {
     font-size: 0.84rem;
     padding: 0.36rem 0.48rem;
+  }
+
+  .project-portal-hint,
+  .project-card,
+  .project-card *,
+  .terminal-prompt-label,
+  .terminal-input,
+  .terminal-input-ghost {
+    word-break: normal;
+    overflow-wrap: normal;
+    hyphens: none;
   }
 }
