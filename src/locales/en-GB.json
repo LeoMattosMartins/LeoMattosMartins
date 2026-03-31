@@ -1,0 +1,25 @@
+{
+  "boot": {
+    "ready": "Leo's Portfolio Terminal",
+    "hint": "Type 'help' to list available commands."
+  },
+  "commands": {
+    "help": "Show available commands",
+    "projects": "Display GitHub project widgets",
+    "work": "Show work experience summary",
+    "resume": "Open resume PDF in a new tab",
+    "lang": "Toggle language",
+    "clear": "Clear terminal and replay boot"
+  },
+  "terminal": {
+    "prompt": "user@leo-portfolio:~$",
+    "loadingProjects": "Loading project stream...",
+    "loadingWork": "Loading work record...",
+    "unknown": "Unknown command",
+    "languageSwitched": "Language switched to {{lang}}"
+  },
+  "header": {
+    "name": "Leonardo Mattos Martins",
+    "role": "Embedded Systems • AI • Full Stack"
+  }
+}

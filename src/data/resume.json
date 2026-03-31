@@ -1,0 +1,29 @@
+[
+  {
+    "company": "MakeyDooey",
+    "title": "Embedded + Full Stack Engineer",
+    "bullets": [
+      "Built robust modular embedded boards and deterministic control firmware.",
+      "Developed a PWA IDE for real-time control workflows.",
+      "Delivered a prosthetic hand precision-control demonstration."
+    ]
+  },
+  {
+    "company": "OpenAI Parameter Golf",
+    "title": "Research Contributor",
+    "bullets": [
+      "Explored vector-field model approaches for strict artifact budgets.",
+      "Prepared experiments for 8xH100 constrained training windows.",
+      "Designed low-power benchmarking plans on Raspberry Pi 5."
+    ]
+  },
+  {
+    "company": "Independent Projects",
+    "title": "Systems Builder",
+    "bullets": [
+      "Created monocraft-matrix for visual serial/network stress testing.",
+      "Applied sci-fi rendering aesthetics using custom Monocraft glyphs.",
+      "Bridged embedded systems, AI experimentation, and product UX."
+    ]
+  }
+]

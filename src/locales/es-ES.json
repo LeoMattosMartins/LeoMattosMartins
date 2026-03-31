@@ -1,0 +1,25 @@
+{
+  "boot": {
+    "ready": "Sistemas galácticos en línea.",
+    "hint": "Escribe 'help' para ver los comandos."
+  },
+  "commands": {
+    "help": "Mostrar comandos disponibles",
+    "projects": "Mostrar widgets de proyectos de GitHub",
+    "work": "Mostrar resumen de experiencia",
+    "resume": "Abrir el CV en una nueva pestaña",
+    "lang": "Cambiar idioma",
+    "clear": "Limpiar terminal y repetir arranque"
+  },
+  "terminal": {
+    "prompt": "leo@galactic:~$",
+    "loadingProjects": "Cargando stream de proyectos...",
+    "loadingWork": "Cargando historial profesional...",
+    "unknown": "Comando desconocido",
+    "languageSwitched": "Idioma cambiado a {{lang}}"
+  },
+  "header": {
+    "name": "Leonardo Mattos Martins",
+    "role": "Sistemas Embebidos • IA • Full Stack"
+  }
+}
