@@ -8,6 +8,7 @@ import Toolbar from './components/Toolbar';
 import { useAppContext } from './context/AppContext';
 
 const THEMES = ['dark', 'light'];
+const SOUND_PREF_STORAGE_KEY = 'leo_terminal_sound_enabled_v1';
 
 const App = () => {
   const { i18n } = useTranslation();
@@ -15,6 +16,15 @@ const App = () => {
 
   const [bootActive, setBootActive] = useState(true);
   const [mobileKeyboardOpen, setMobileKeyboardOpen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    try {
+      const saved = localStorage.getItem(SOUND_PREF_STORAGE_KEY);
+      if (saved == null) return true;
+      return saved === 'true';
+    } catch (_error) {
+      return true;
+    }
+  });
 
   const rootClass = useMemo(() => `theme-${state.theme}`, [state.theme]);
 
@@ -41,6 +51,14 @@ const App = () => {
     return () => window.visualViewport.removeEventListener('resize', handleViewport);
   }, []);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(SOUND_PREF_STORAGE_KEY, String(soundEnabled));
+    } catch (_error) {
+      // no-op
+    }
+  }, [soundEnabled]);
+
   const cycleTheme = () => {
     if (state.theme === 'contrast') {
       dispatch({ type: 'SET_THEME', payload: 'dark' });
@@ -56,12 +74,18 @@ const App = () => {
     dispatch({ type: 'SET_THEME', payload: state.theme === 'contrast' ? 'dark' : 'contrast' });
   };
 
+  const toggleSound = () => {
+    setSoundEnabled((current) => !current);
+  };
+
   return (
     <main className="site-shell relative flex h-dvh flex-col overflow-hidden">
       <Toolbar
         theme={state.theme}
+        soundEnabled={soundEnabled}
         onThemeCycle={cycleTheme}
         onContrast={toggleContrast}
+        onSoundToggle={toggleSound}
       />
 
       <MatrixRain active={bootActive} theme={state.theme} onDone={() => setBootActive(false)} />
@@ -70,6 +94,7 @@ const App = () => {
 
       <TerminalShell
         theme={state.theme}
+        soundEnabled={soundEnabled}
         onClearTrigger={() => {
           setBootActive(false);
           requestAnimationFrame(() => setBootActive(true));

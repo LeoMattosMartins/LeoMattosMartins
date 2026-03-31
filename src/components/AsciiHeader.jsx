@@ -84,7 +84,7 @@ const AsciiHeader = ({ hidden }) => {
   }, [eyeOffsetX, isBlinking, portraitModel]);
 
   return (
-    <header className={`w-full px-4 py-3 ${hidden ? 'hidden' : 'block'}`}>
+    <header className={`ascii-header w-full px-4 py-3 ${hidden ? 'hidden' : 'block'}`}>
       <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
         <pre ref={portraitRef} className="leading-none tracking-tight font-mono text-[10px] md:text-[13px]">
           {animatedPortrait}

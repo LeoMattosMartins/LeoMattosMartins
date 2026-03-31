@@ -35,6 +35,7 @@ const nextLanguage = (current) => {
 
 const ANSI = {
   reset: '\u001b[0m',
+  underline: '\u001b[4m',
   cyan: '\u001b[38;2;127;177;255m',
   red: '\u001b[31m',
   pink: '\u001b[38;2;255;105;180m'
@@ -43,25 +44,45 @@ const ANSI = {
 const OUTPUT_STORAGE_KEY = 'leo_terminal_output_v1';
 const COMMAND_HISTORY_STORAGE_KEY = 'leo_terminal_command_history_v1';
 const COMMANDS = ['help', 'projects', 'work', 'tech-stack', 'a11y', 'resume', 'lang', 'clear'];
+const HELP_LINK_COMMANDS = ['help', 'projects', 'work', 'tech-stack', 'resume', 'clear', 'lang', 'a11y'];
 const TYPE_BASE_DELAY_MS = 22;
 const TYPE_VARIANCE_MS = 34;
 const SECTION_PAUSE_MS = 240;
 const LINE_END_PAUSE_MS = 90;
 const PUNCTUATION_PAUSE_MS = 70;
 const SOUND_COOLDOWN_MS = 36;
+const AUTO_HELP_DELAY_MS = 1000;
+const FALLBACK_LIBRARY_FRAMEWORK_LINES = [
+  '* Languages & Databases: Python, C/C++, Go, Java, JavaScript, SQL, PostgreSQL, MongoDB',
+  '* AI & Machine Learning: PyTorch, TensorFlow, JAX, Scikit-learn, TensorRT, LLMs (Llama), CUDA',
+  '* Tools & Infrastructure: Docker, Kubernetes, Git, CI/CD, Linux, REST APIs, pandas, Agile/Scrum'
+];
 
 const color = (text, tone) => `${ANSI[tone]}${text}${ANSI.reset}`;
+const commandLinkText = (text) => `${ANSI.cyan}${ANSI.underline}${text}${ANSI.reset}`;
 
-const extractTotalLinesOfCode = (content) => {
+const extractTechStackLines = (content) => {
   const techStackSection = content.match(/##\s+Tech Stack([\s\S]*?)(?:\n##\s|$)/i);
   const source = techStackSection?.[1] ?? content;
-  const totalMatch = source.match(/TOTAL\s+LINES\s+OF\s+CODE:\s*([\d,]+)/i);
-  return totalMatch?.[1] ?? 'N/A';
+  const codeBlock = source.match(/```([\s\S]*?)```/);
+  const block = (codeBlock?.[1] ?? source).trim();
+  if (!block) return [];
+  return block.split('\n').map((line) => line.replace(/\r/g, ''));
+};
+
+const extractLibraryFrameworkLines = (content) => {
+  const section = content.match(/##\s+Libraries and Fram(?:e)?works([\s\S]*?)(?:\n##\s|$)/i);
+  const source = section?.[1]?.trim();
+  if (!source) return [];
+  return source
+    .split('\n')
+    .map((line) => line.replace(/\r/g, '').trim())
+    .filter(Boolean);
 };
 
 const isPhoneViewport = () => window.matchMedia('(max-width: 768px)').matches;
 
-const TerminalShell = ({ theme, onClearTrigger }) => {
+const TerminalShell = ({ theme, soundEnabled, onClearTrigger }) => {
   const containerRef = useRef(null);
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
@@ -82,7 +103,9 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   const [projects, setProjects] = useState([]);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [commandInput, setCommandInput] = useState('');
-  const totalLinesOfCode = useMemo(() => extractTotalLinesOfCode(readmeContent), []);
+  const executeRef = useRef(null);
+  const techStackLines = useMemo(() => extractTechStackLines(readmeContent), []);
+  const libraryFrameworkLines = useMemo(() => extractLibraryFrameworkLines(readmeContent), []);
 
   const prompt = useMemo(() => `${t('terminal.prompt')} `, [t]);
 
@@ -143,7 +166,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
         return;
       }
 
-      if (muteTypingSoundRef.current) {
+      if (muteTypingSoundRef.current || !soundEnabled) {
         return;
       }
 
@@ -171,7 +194,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     } catch (_error) {
       // no-op
     }
-  }, []);
+  }, [soundEnabled]);
 
   const writeLine = useCallback((line, token) => {
     const terminal = terminalRef.current;
@@ -289,36 +312,43 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     writeln('');
     writeln(color(t('terminal.helpBlurbTitle'), 'cyan'));
     writeln(t('terminal.helpBlurbBody'));
-    writeln(t('terminal.helpUsageHistory'));
     writeln(t('terminal.helpUsageAutocomplete'));
+    writeln(t('terminal.helpUsageHistory'));
     writeln(t('terminal.helpUsageSkip'));
     writeln(t('terminal.helpUsageAccessibility'));
     writeln('');
     writeln(color(t('terminal.helpHeader'), 'cyan'));
-    writeln(`help            ${t('commands.help')}`);
-    writeln(`projects        ${t('commands.projects')}`);
-    writeln(`work            ${t('commands.work')}`);
-    writeln(`tech-stack      ${t('commands.techStack')}`);
-    writeln(`resume          ${t('commands.resume')}`);
-    writeln(`clear           ${t('commands.clear')}`);
+    writeln(`${commandLinkText('help')}            ${t('commands.help')}`);
+    writeln(`${commandLinkText('projects')}        ${t('commands.projects')}`);
+    writeln(`${commandLinkText('work')}            ${t('commands.work')}`);
+    writeln(`${commandLinkText('tech-stack')}      ${t('commands.techStack')}`);
+    writeln(`${commandLinkText('resume')}          ${t('commands.resume')}`);
+    writeln(`${commandLinkText('clear')}           ${t('commands.clear')}`);
     writeln('');
-    writeln(`lang            ${t('commands.lang')}`);
-    writeln(`a11y            ${t('commands.a11y')}`);
+    writeln(`${commandLinkText('lang')}            ${t('commands.lang')}`);
+    writeln(`${commandLinkText('a11y')}            ${t('commands.a11y')}`);
   }, [t, writeln]);
 
   const printTechStack = useCallback(() => {
     writeln(color(t('terminal.techStackHeader'), 'cyan'));
-    writeln(`${t('terminal.totalLinesOfCode')}: ${color(totalLinesOfCode, 'cyan')}`);
     writeln('');
-    writeln(color('Languages & Databases', 'cyan'));
-    writeln('Python, C/C++, Go, Java, JavaScript, SQL, PostgreSQL, MongoDB');
-    writeln('');
-    writeln(color('AI & Machine Learning', 'cyan'));
-    writeln('PyTorch, TensorFlow, JAX, Scikit-learn, TensorRT, LLMs (Llama), CUDA');
-    writeln('');
-    writeln(color('Tools & Infrastructure', 'cyan'));
-    writeln('Docker, Kubernetes, Git, CI/CD, Linux, REST APIs, pandas, Agile/Scrum');
-  }, [t, totalLinesOfCode, writeln]);
+    if (!techStackLines.length) {
+      writeln(t('terminal.techStackUnavailable'));
+      return;
+    }
+
+    techStackLines.forEach((line) => {
+      writeln(line);
+    });
+
+    const frameworkLines = libraryFrameworkLines.length ? libraryFrameworkLines : FALLBACK_LIBRARY_FRAMEWORK_LINES;
+    if (frameworkLines.length) {
+      writeln('');
+      frameworkLines.forEach((line) => {
+        writeln(line);
+      });
+    }
+  }, [libraryFrameworkLines, t, techStackLines, writeln]);
 
   const printA11y = useCallback(() => {
     writeln(color(t('terminal.accessibilityHeader'), 'cyan'));
@@ -364,14 +394,21 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   }, [i18n.language, t, writeln]);
 
   const execute = useCallback(
-    async (rawValue) => {
+    async (rawValue, options = {}) => {
+      const { recordHistory = true } = options;
       const command = rawValue.trim().toLowerCase();
 
-      dispatch({ type: 'PUSH_HISTORY', payload: command });
-      if (command) {
+      if (recordHistory) {
+        dispatch({ type: 'PUSH_HISTORY', payload: command });
+      }
+
+      if (command && recordHistory) {
         commandHistoryRef.current.push(command);
         historyCursorRef.current = -1;
         persistCommandHistory();
+      }
+
+      if (command) {
         writeln(`${prompt}${color(command, 'cyan')}`);
       }
 
@@ -403,7 +440,29 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           const language = nextLanguage(i18n.language);
           await i18n.changeLanguage(language);
           dispatch({ type: 'SET_LANGUAGE', payload: language });
-          writeln(color(t('terminal.languageSwitched', { lang: language }), 'cyan'));
+
+          writeTokenRef.current += 1;
+          writeQueueRef.current = Promise.resolve();
+          pendingWritesRef.current = 0;
+          skipTypingRef.current = false;
+          terminalRef.current?.clear();
+          outputLinesRef.current = [];
+          persistOutput();
+          setProjects([]);
+          setProjectsVisible(false);
+          commandHistoryRef.current = [];
+          historyCursorRef.current = -1;
+          persistCommandHistory();
+          dispatch({ type: 'CLEAR_HISTORY' });
+
+          muteTypingSoundRef.current = true;
+          await writeln(t('boot.ready'));
+          await writeln(t('boot.hint'));
+          muteTypingSoundRef.current = false;
+          await new Promise((resolve) => {
+            window.setTimeout(resolve, AUTO_HELP_DELAY_MS);
+          });
+          await execute('help', { recordHistory: false });
           break;
         }
         case 'clear':
@@ -414,6 +473,9 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           terminalRef.current?.clear();
           outputLinesRef.current = [];
           persistOutput();
+          commandHistoryRef.current = [];
+          historyCursorRef.current = -1;
+          persistCommandHistory();
           setProjects([]);
           setProjectsVisible(false);
           onClearTrigger();
@@ -421,6 +483,10 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           await writeln(t('boot.ready'));
           await writeln(t('boot.hint'));
           muteTypingSoundRef.current = false;
+          await new Promise((resolve) => {
+            window.setTimeout(resolve, AUTO_HELP_DELAY_MS);
+          });
+          await execute('help', { recordHistory: false });
           await writeln('');
           break;
         case '':
@@ -456,6 +522,21 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   );
 
   useEffect(() => {
+    executeRef.current = execute;
+  }, [execute]);
+
+  const runHelpAction = useCallback(async (command) => {
+    setCommandInput(command);
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 80);
+    });
+    setCommandInput('');
+    if (executeRef.current) {
+      await executeRef.current(command);
+    }
+  }, []);
+
+  useEffect(() => {
     const mobile = isPhoneViewport();
     const terminal = new Terminal({
       cursorBlink: true,
@@ -474,6 +555,40 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
 
     terminal.open(containerRef.current);
     fitAddon.fit();
+
+    const helpCommandPattern = new RegExp(`^\\s*(${HELP_LINK_COMMANDS.join('|')})\\b`);
+    const commandLinkProvider = terminal.registerLinkProvider({
+      provideLinks: (lineNumber, callback) => {
+        const line = terminal.buffer.active.getLine(lineNumber - 1);
+        const text = line?.translateToString(true) ?? '';
+        const match = text.match(helpCommandPattern);
+
+        if (!match) {
+          callback([]);
+          return;
+        }
+
+        const command = match[1];
+        const startIndex = text.indexOf(command);
+        if (startIndex < 0) {
+          callback([]);
+          return;
+        }
+
+        callback([
+          {
+            text: command,
+            range: {
+              start: { x: startIndex + 1, y: lineNumber },
+              end: { x: startIndex + command.length + 1, y: lineNumber }
+            },
+            activate: () => {
+              void runHelpAction(command);
+            }
+          }
+        ]);
+      }
+    });
 
     terminalRef.current = terminal;
     inputRef.current?.focus();
@@ -497,8 +612,17 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     }
 
     if (outputLinesRef.current.length === 0) {
-      writeln(t('boot.ready'));
-      writeln(t('boot.hint'));
+      const bootstrap = async () => {
+        muteTypingSoundRef.current = true;
+        await writeln(t('boot.ready'));
+        await writeln(t('boot.hint'));
+        muteTypingSoundRef.current = false;
+        await new Promise((resolve) => {
+          window.setTimeout(resolve, AUTO_HELP_DELAY_MS);
+        });
+        await execute('help', { recordHistory: false });
+      };
+      bootstrap();
     }
 
     const onResize = () => {
@@ -520,9 +644,10 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
         audioContextRef.current.close();
         audioContextRef.current = null;
       }
+      commandLinkProvider.dispose();
       terminal.dispose();
     };
-  }, []);
+  }, [runHelpAction]);
 
   useEffect(() => {
     if (!terminalRef.current) return;
@@ -596,7 +721,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   return (
     <section className="relative flex flex-1 flex-col overflow-hidden" onClick={() => inputRef.current?.focus()}>
       <div ref={containerRef} className="h-full w-full" />
-      <ProjectsPortal projects={projects} visible={projectsVisible} />
+      <ProjectsPortal projects={projects} visible={projectsVisible} onClose={() => setProjectsVisible(false)} />
       <form className="terminal-input-wrap" onSubmit={handleSubmit}>
         <label htmlFor="terminal-input" className="terminal-prompt-label">
           {prompt.trim()}
@@ -627,7 +752,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           ) : null}
         </div>
         <span id="terminal-shortcuts-hint" className="sr-only">
-          {t('terminal.helpUsageHistory')} {t('terminal.helpUsageAutocomplete')} {t('terminal.helpUsageSkip')}
+          {t('terminal.helpUsageAutocomplete')} {t('terminal.helpUsageHistory')} {t('terminal.helpUsageSkip')}
         </span>
       </form>
     </section>

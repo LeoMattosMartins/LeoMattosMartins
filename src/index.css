@@ -63,6 +63,10 @@ body {
   left: 1rem;
 }
 
+.ascii-header {
+  padding-top: 47px;
+}
+
 .toolbar-btn {
   border: 1px solid currentColor;
   padding: 0.35rem 0.6rem;
@@ -95,6 +99,23 @@ body {
   margin: 0 0 0.55rem;
   font-size: 0.78rem;
   color: color-mix(in oklab, var(--fg), var(--accent) 38%);
+}
+
+.project-portal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.project-close-btn {
+  display: none;
+  border: 1px solid currentColor;
+  background: color-mix(in oklab, var(--panel-soft), black 10%);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.4rem;
 }
 
 .project-rail {
@@ -177,6 +198,24 @@ body {
   overflow-y: auto;
 }
 
+.terminal-help-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border-top: 1px solid color-mix(in oklab, var(--fg), transparent 75%);
+  background: color-mix(in oklab, var(--panel-soft), black 12%);
+}
+
+.terminal-help-action-btn {
+  border: 1px solid color-mix(in oklab, var(--fg), transparent 45%);
+  background: color-mix(in oklab, var(--panel), black 6%);
+  color: #7fb1ff;
+  font-family: inherit;
+  font-size: 0.76rem;
+  padding: 0.2rem 0.5rem;
+}
+
 @media (max-width: 768px) {
   .site-shell {
     border-width: 2px;
@@ -191,6 +230,10 @@ body {
     bottom: auto;
     flex-direction: row;
     gap: 0.35rem;
+  }
+
+  .ascii-header {
+    padding-top: calc(env(safe-area-inset-top) + 37px);
   }
 
   .toolbar-btn {
@@ -212,8 +255,24 @@ body {
 
   .terminal-input,
   .terminal-input-ghost {
-    font-size: 0.84rem;
+    font-size: 16px;
     padding: 0.36rem 0.48rem;
+  }
+
+  .project-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .terminal-help-actions {
+    gap: 0.35rem;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .terminal-help-action-btn {
+    font-size: 0.72rem;
+    padding: 0.18rem 0.42rem;
   }
 
   .project-portal-hint,

@@ -27,7 +27,8 @@ PHP                     57 lines
 ----------------------------------------
 Last Updated: 2026-03-29 15:09 UTC
 ```
-## Libraries and Framworks
+## Libraries and Frameworks
 
-* Python: Numpy, Matplotlib, JAX, FLAX, TensorFlow, scikit-learn
----
+* Languages & Databases: Python, C/C++, Go, Java, JavaScript, SQL, PostgreSQL, MongoDB
+* AI & Machine Learning: PyTorch, TensorFlow, JAX, Scikit-learn, TensorRT, LLMs (Llama), CUDA
+* Tools & Infrastructure: Docker, Kubernetes, Git, CI/CD, Linux, REST APIs, pandas, Agile/Scrum

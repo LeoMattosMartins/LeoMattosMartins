@@ -1,17 +1,22 @@
 import { useTranslation } from 'react-i18next';
 
-const ProjectsPortal = ({ projects, visible }) => {
+const ProjectsPortal = ({ projects, visible, onClose }) => {
   const { t } = useTranslation();
 
   if (!projects.length || !visible) return null;
 
   return (
     <div className="project-portal">
-      <p className="project-portal-hint">{t('projects.portalHint')}</p>
+      <div className="project-portal-head">
+        <p className="project-portal-hint">{t('projects.portalHint')}</p>
+        <button type="button" className="project-close-btn" onClick={onClose} aria-label={t('projects.close')}>
+          [x]
+        </button>
+      </div>
       <div className="project-rail">
         {projects.map((project) => (
           <article key={project.id} className="project-card">
-            <h3 className="text-base font-semibold break-all leading-tight">{project.name}</h3>
+            <h3 className="text-base font-semibold leading-tight">{project.name}</h3>
             <p className="mt-2 text-xs opacity-80">{project.description}</p>
             <div className="mt-3 text-xs opacity-70">
               <span>{project.language}</span> · <span>★ {project.stars}</span>

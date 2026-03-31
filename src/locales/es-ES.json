@@ -7,7 +7,7 @@
     "help": "Mostrar comandos disponibles",
     "projects": "Mostrar widgets de proyectos de GitHub",
     "work": "Mostrar resumen de experiencia",
-    "techStack": "Mostrar habilidades técnicas y total de LOC",
+    "techStack": "Mostrar sección Tech Stack del README",
     "a11y": "Mostrar guía de teclado y accesibilidad",
     "resume": "Abrir el CV en una nueva pestaña",
     "lang": "Cambiar idioma (en-GB, pt-BR, es-ES)",
@@ -18,7 +18,7 @@
     "helpBlurbTitle": "SOBRE ESTE PORTAFOLIO",
     "helpBlurbBody": "Portafolio interactivo tipo terminal para mostrar mis proyectos, experiencia y enfoque de ingeniería.",
     "helpUsageHistory": "Usa Flecha Arriba/Flecha Abajo para navegar por el historial de comandos.",
-    "helpUsageAutocomplete": "Usa Tab para autocompletar comandos y la pista de ghost text mientras escribes.",
+    "helpUsageAutocomplete": "Usa Tab para autocompletar comandos; puedes hacer clic en los enlaces de help o escribir los comandos manualmente.",
     "helpUsageSkip": "Pulsa Enter para saltar las animaciones de escritura mientras la salida aún se está renderizando.",
     "helpUsageAccessibility": "Usa los controles de la barra para tema y alto contraste; pulsa Esc para cerrar el panel de proyectos.",
     "helpHeader": "COMANDO         DESCRIPCIÓN",
@@ -28,13 +28,14 @@
     "loadingWork": "Cargando historial profesional...",
     "workHeading": "En lo que he estado trabajando",
     "techStackHeader": "Stack Técnico",
-    "totalLinesOfCode": "Total de líneas de código",
+    "techStackUnavailable": "La sección de stack técnico no está disponible ahora mismo.",
     "accessibilityHeader": "Guía de Accesibilidad",
     "accessibilityHint": "Consejo: En dispositivos móviles, los comandos inválidos disparan una vibración corta si hay soporte háptico.",
     "openingResume": "Abriendo currículum...",
     "unknown": "Comando desconocido",
     "languageSwitched": "Idioma cambiado a {{lang}}",
-    "inputAria": "Entrada de terminal"
+    "inputAria": "Entrada de terminal",
+    "helpActionAria": "Acciones rápidas de comando"
   },
   "header": {
     "name": "Leonardo Mattos Martins",
@@ -43,11 +44,17 @@
   "toolbar": {
     "toggleTheme": "Cambiar tema",
     "toggleContrast": "Alternar alto contraste",
-    "contrast": "Contraste"
+    "toggleSound": "Alternar sonido de escritura",
+    "contrast": "Contraste",
+    "lightMode": "Modo Claro",
+    "darkMode": "Modo Oscuro",
+    "soundOn": "Sonido Activado",
+    "soundOff": "Sonido Desactivado"
   },
   "projects": {
     "portalHint": "PROYECTOS • Pulsa Esc para cerrar",
-    "openOnGitHub": "Abrir en GitHub"
+    "openOnGitHub": "Abrir en GitHub",
+    "close": "Cerrar proyectos"
   },
   "work": {
     "entries": [

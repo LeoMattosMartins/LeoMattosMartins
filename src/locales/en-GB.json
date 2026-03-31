@@ -7,7 +7,7 @@
     "help": "Show available commands",
     "projects": "Display GitHub project widgets",
     "work": "Show work experience summary",
-    "techStack": "Show technical skills and total LOC",
+    "techStack": "Show README tech stack breakdown",
     "a11y": "Show keyboard and accessibility guidance",
     "resume": "Open resume PDF in a new tab",
     "lang": "Cycle language (en-GB, pt-BR, es-ES)",
@@ -18,7 +18,7 @@
     "helpBlurbTitle": "ABOUT THIS PORTFOLIO",
     "helpBlurbBody": "Interactive terminal portfolio showcasing my projects, work, and engineering focus.",
     "helpUsageHistory": "Use ArrowUp/ArrowDown to navigate command history.",
-    "helpUsageAutocomplete": "Use Tab to autocomplete commands and use the ghost text hint while typing.",
+    "helpUsageAutocomplete": "Use Tab to autocomplete commands; you can click the help command links or type commands manually.",
     "helpUsageSkip": "Press Enter to skip typing animations when output is still rendering.",
     "helpUsageAccessibility": "Use toolbar controls for theme and high contrast; press Esc to close the project panel.",
     "helpHeader": "COMMAND         DESCRIPTION",
@@ -28,13 +28,14 @@
     "loadingWork": "Loading work record...",
     "workHeading": "What I've been working on",
     "techStackHeader": "Technical Stack",
-    "totalLinesOfCode": "Total lines of code",
+    "techStackUnavailable": "Tech stack section is unavailable right now.",
     "accessibilityHeader": "Accessibility Guide",
     "accessibilityHint": "Tip: On mobile devices, invalid commands trigger a short vibration if haptics are available.",
     "openingResume": "Opening resume...",
     "unknown": "Unknown command",
     "languageSwitched": "Language switched to {{lang}}",
-    "inputAria": "Terminal Input"
+    "inputAria": "Terminal Input",
+    "helpActionAria": "Quick command actions"
   },
   "header": {
     "name": "Leonardo Mattos Martins",
@@ -43,11 +44,17 @@
   "toolbar": {
     "toggleTheme": "Toggle theme",
     "toggleContrast": "Toggle high contrast",
-    "contrast": "Contrast"
+    "toggleSound": "Toggle typing sound",
+    "contrast": "Contrast",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "soundOn": "Sound On",
+    "soundOff": "Sound Off"
   },
   "projects": {
     "portalHint": "PROJECTS • Press Esc to close",
-    "openOnGitHub": "Open on GitHub"
+    "openOnGitHub": "Open on GitHub",
+    "close": "Close projects"
   },
   "work": {
     "entries": [
