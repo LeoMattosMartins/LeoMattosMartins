@@ -58,6 +58,11 @@ body {
   padding: 0.55rem;
 }
 
+.toolbar-dock {
+  bottom: 1rem;
+  right: 1rem;
+}
+
 .toolbar-btn {
   border: 1px solid currentColor;
   padding: 0.35rem 0.6rem;
@@ -170,4 +175,41 @@ body {
 
 .xterm .xterm-viewport {
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .site-shell {
+    border-width: 2px;
+    padding: 0.35rem;
+  }
+
+  .toolbar-dock {
+    right: 0.55rem;
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .toolbar-btn {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.5rem;
+  }
+
+  .terminal-input-wrap {
+    gap: 0.4rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .terminal-prompt-label {
+    font-size: 0.78rem;
+    max-width: 42vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .terminal-input,
+  .terminal-input-ghost {
+    font-size: 0.84rem;
+    padding: 0.36rem 0.48rem;
+  }
 }

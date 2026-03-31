@@ -59,6 +59,8 @@ const extractTotalLinesOfCode = (content) => {
   return totalMatch?.[1] ?? 'N/A';
 };
 
+const isPhoneViewport = () => window.matchMedia('(max-width: 768px)').matches;
+
 const TerminalShell = ({ theme, onClearTrigger }) => {
   const containerRef = useRef(null);
   const terminalRef = useRef(null);
@@ -454,11 +456,13 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   );
 
   useEffect(() => {
+    const mobile = isPhoneViewport();
     const terminal = new Terminal({
       cursorBlink: true,
       convertEol: true,
       fontFamily: 'Monocraft, monospace',
-      fontSize: 18,
+      fontSize: mobile ? 14 : 18,
+      lineHeight: mobile ? 1.2 : 1.1,
       theme: themeMap[theme],
       disableStdin: true,
       allowTransparency: true,
@@ -497,7 +501,14 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
       writeln(t('boot.hint'));
     }
 
-    const onResize = () => fitAddon.fit();
+    const onResize = () => {
+      if (terminalRef.current) {
+        const phone = isPhoneViewport();
+        terminalRef.current.options.fontSize = phone ? 14 : 18;
+        terminalRef.current.options.lineHeight = phone ? 1.2 : 1.1;
+      }
+      fitAddon.fit();
+    };
     window.addEventListener('resize', onResize);
 
     return () => {

@@ -4,7 +4,7 @@ const Toolbar = ({ theme, onThemeCycle, onContrast }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2">
+    <div className="toolbar-dock fixed z-40 flex items-center gap-2">
       <button type="button" onClick={onThemeCycle} className="toolbar-btn" aria-label={t('toolbar.toggleTheme')}>
         ☼/☾
       </button>
