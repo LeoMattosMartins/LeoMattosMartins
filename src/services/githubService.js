@@ -1,6 +1,7 @@
 import translationsMap from '../data/translations_map.json';
 
 const API_URL = 'https://api.github.com/users/LeoMattosMartins/repos?sort=updated&per_page=12';
+const EXCLUDED_REPOS = new Set(['LeoMattosMartins', 'monocraft-matrix']);
 
 const PROJECT_FALLBACKS = {
   'en-GB': {
@@ -29,7 +30,7 @@ export const fetchGitHubProjects = async (language = 'en-GB') => {
   const fallback = PROJECT_FALLBACKS[language] ?? PROJECT_FALLBACKS['en-GB'];
 
   return repos
-    .filter((repo) => !repo.fork)
+    .filter((repo) => !repo.fork && !EXCLUDED_REPOS.has(repo.name))
     .slice(0, 8)
     .map((repo) => ({
       id: repo.id,

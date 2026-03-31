@@ -6,6 +6,7 @@ const AsciiHeader = ({ hidden }) => {
   const { t } = useTranslation();
   const portraitRef = useRef(null);
   const [eyeOffsetX, setEyeOffsetX] = useState(0);
+  const [isBlinking, setIsBlinking] = useState(false);
 
   const portraitModel = useMemo(() => {
     const lines = asciiPortrait.split('\n');
@@ -40,6 +41,28 @@ const AsciiHeader = ({ hidden }) => {
     };
   }, []);
 
+  useEffect(() => {
+    let blinkTimeoutId;
+
+    const scheduleBlink = () => {
+      const wait = 2200 + Math.random() * 3800;
+      blinkTimeoutId = window.setTimeout(() => {
+        setIsBlinking(true);
+        window.setTimeout(() => {
+          setIsBlinking(false);
+          scheduleBlink();
+        }, 140);
+      }, wait);
+    };
+
+    scheduleBlink();
+    return () => {
+      if (blinkTimeoutId) {
+        window.clearTimeout(blinkTimeoutId);
+      }
+    };
+  }, []);
+
   const animatedPortrait = useMemo(() => {
     const matrix = portraitModel.lines.map((line) => line.split(''));
 
@@ -54,11 +77,11 @@ const AsciiHeader = ({ hidden }) => {
       if (!lineLength) return;
 
       const targetX = Math.max(0, Math.min(lineLength - 1, x + eyeOffsetX));
-      matrix[y][targetX] = '@';
+      matrix[y][targetX] = isBlinking ? '-' : '@';
     });
 
     return matrix.map((line) => line.join('')).join('\n');
-  }, [eyeOffsetX, portraitModel]);
+  }, [eyeOffsetX, isBlinking, portraitModel]);
 
   return (
     <header className={`w-full px-4 py-3 ${hidden ? 'hidden' : 'block'}`}>

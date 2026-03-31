@@ -34,13 +34,19 @@ const nextLanguage = (current) => {
 
 const ANSI = {
   reset: '\u001b[0m',
-  cyan: '\u001b[36m',
+  cyan: '\u001b[38;2;127;177;255m',
   red: '\u001b[31m'
 };
 
 const OUTPUT_STORAGE_KEY = 'leo_terminal_output_v1';
 const COMMAND_HISTORY_STORAGE_KEY = 'leo_terminal_command_history_v1';
 const COMMANDS = ['help', 'projects', 'work', 'resume', 'lang', 'clear'];
+const TYPE_BASE_DELAY_MS = 22;
+const TYPE_VARIANCE_MS = 34;
+const SECTION_PAUSE_MS = 240;
+const LINE_END_PAUSE_MS = 90;
+const PUNCTUATION_PAUSE_MS = 70;
+const SOUND_COOLDOWN_MS = 36;
 
 const color = (text, tone) => `${ANSI[tone]}${text}${ANSI.reset}`;
 
@@ -51,6 +57,13 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
   const commandHistoryRef = useRef([]);
   const historyCursorRef = useRef(-1);
   const outputLinesRef = useRef([]);
+  const writeQueueRef = useRef(Promise.resolve());
+  const writeTokenRef = useRef(0);
+  const pendingWritesRef = useRef(0);
+  const skipTypingRef = useRef(false);
+  const muteTypingSoundRef = useRef(false);
+  const audioContextRef = useRef(null);
+  const lastSoundRef = useRef(0);
 
   const { t, i18n } = useTranslation();
   const { dispatch } = useAppContext();
@@ -89,11 +102,168 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     }
   }, []);
 
-  const writeln = useCallback((line = '') => {
-    outputLinesRef.current.push(line);
-    persistOutput();
-    terminalRef.current?.writeln(line);
-  }, [persistOutput]);
+  const playTypingSound = useCallback(() => {
+    try {
+      const now = performance.now();
+      if (now - lastSoundRef.current < SOUND_COOLDOWN_MS) {
+        return;
+      }
+
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        return;
+      }
+
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContextClass();
+      }
+
+      const context = audioContextRef.current;
+      if (!context) {
+        return;
+      }
+
+      if (muteTypingSoundRef.current) {
+        return;
+      }
+
+      if (context.state === 'suspended') {
+        context.resume();
+      }
+
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const startAt = context.currentTime;
+
+      oscillator.type = 'square';
+      oscillator.frequency.value = 130 + Math.random() * 110;
+
+      gain.gain.setValueAtTime(0.0001, startAt);
+      gain.gain.exponentialRampToValueAtTime(0.02, startAt + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.03);
+
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+
+      oscillator.start(startAt);
+      oscillator.stop(startAt + 0.032);
+      lastSoundRef.current = now;
+    } catch (_error) {
+      // no-op
+    }
+  }, []);
+
+  const writeLine = useCallback((line, token) => {
+    const terminal = terminalRef.current;
+
+    if (!terminal || token !== writeTokenRef.current) {
+      return Promise.resolve();
+    }
+
+    if (!line) {
+      terminal.writeln(line);
+      if (skipTypingRef.current) {
+        return Promise.resolve();
+      }
+      return new Promise((resolve) => {
+        window.setTimeout(resolve, SECTION_PAUSE_MS);
+      });
+    }
+
+    const segments = [];
+    const ansiRegex = /\u001b\[[0-9;]*m/g;
+    let cursor = 0;
+
+    line.replaceAll(ansiRegex, (match, offset) => {
+      if (offset > cursor) {
+        segments.push({ type: 'text', value: line.slice(cursor, offset) });
+      }
+      segments.push({ type: 'ansi', value: match });
+      cursor = offset + match.length;
+      return match;
+    });
+
+    if (cursor < line.length) {
+      segments.push({ type: 'text', value: line.slice(cursor) });
+    }
+
+    return new Promise((resolve) => {
+      let segmentIndex = 0;
+      let textIndex = 0;
+
+      const step = () => {
+        const activeTerminal = terminalRef.current;
+        if (!activeTerminal || token !== writeTokenRef.current) {
+          resolve();
+          return;
+        }
+
+        if (segmentIndex >= segments.length) {
+          activeTerminal.write('\r\n');
+          window.setTimeout(resolve, LINE_END_PAUSE_MS);
+          return;
+        }
+
+        const segment = segments[segmentIndex];
+        if (segment.type === 'ansi') {
+          activeTerminal.write(segment.value);
+          segmentIndex += 1;
+          textIndex = 0;
+          step();
+          return;
+        }
+
+        if (textIndex >= segment.value.length) {
+          segmentIndex += 1;
+          textIndex = 0;
+          step();
+          return;
+        }
+
+        const remaining = segment.value.length - textIndex;
+        const maxChunk = skipTypingRef.current ? remaining : 1 + Math.floor(Math.random() * 3);
+        const chunkSize = Math.min(remaining, maxChunk);
+        const chunk = segment.value.slice(textIndex, textIndex + chunkSize);
+        const lastChar = chunk[chunk.length - 1];
+
+        activeTerminal.write(chunk);
+        if (!skipTypingRef.current) {
+          playTypingSound();
+        }
+        textIndex += chunkSize;
+
+        let delay = 0;
+        if (!skipTypingRef.current) {
+          delay = TYPE_BASE_DELAY_MS + Math.random() * TYPE_VARIANCE_MS;
+          if (lastChar && '.!,;:?'.includes(lastChar)) {
+            delay += PUNCTUATION_PAUSE_MS;
+          }
+        }
+
+        window.setTimeout(step, delay);
+      };
+
+      step();
+    });
+  }, [playTypingSound]);
+
+  const writeln = useCallback(
+    (line = '') => {
+      outputLinesRef.current.push(line);
+      persistOutput();
+      pendingWritesRef.current += 1;
+
+      const token = writeTokenRef.current;
+      writeQueueRef.current = writeQueueRef.current.then(() => writeLine(line, token)).finally(() => {
+        pendingWritesRef.current = Math.max(0, pendingWritesRef.current - 1);
+        if (pendingWritesRef.current === 0) {
+          skipTypingRef.current = false;
+        }
+      });
+      return writeQueueRef.current;
+    },
+    [persistOutput, writeLine]
+  );
 
   const printHelp = useCallback(() => {
     writeln('');
@@ -101,6 +271,7 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     writeln(t('terminal.helpBlurbBody'));
     writeln(t('terminal.helpUsageHistory'));
     writeln(t('terminal.helpUsageAutocomplete'));
+    writeln(t('terminal.helpUsageSkip'));
     writeln(t('terminal.helpUsageAccessibility'));
     writeln('');
     writeln(color(t('terminal.helpHeader'), 'cyan'));
@@ -180,17 +351,30 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
           break;
         }
         case 'clear':
+          writeTokenRef.current += 1;
+          writeQueueRef.current = Promise.resolve();
+          pendingWritesRef.current = 0;
+          skipTypingRef.current = false;
           terminalRef.current?.clear();
           outputLinesRef.current = [];
           persistOutput();
           setProjects([]);
           setProjectsVisible(false);
           onClearTrigger();
+          muteTypingSoundRef.current = true;
+          await writeln(t('boot.ready'));
+          await writeln(t('boot.hint'));
+          muteTypingSoundRef.current = false;
+          await writeln('');
           break;
         case '':
           break;
         default:
           writeln(color(`${t('terminal.unknown')}: ${command}`, 'red'));
+      }
+
+      if (command && command !== 'clear') {
+        await writeln('');
       }
 
       inputRef.current?.focus();
@@ -259,7 +443,14 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
     window.addEventListener('resize', onResize);
 
     return () => {
+      writeTokenRef.current += 1;
+      pendingWritesRef.current = 0;
+      skipTypingRef.current = false;
       window.removeEventListener('resize', onResize);
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
       terminal.dispose();
     };
   }, []);
@@ -271,6 +462,14 @@ const TerminalShell = ({ theme, onClearTrigger }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (pendingWritesRef.current > 0) {
+      skipTypingRef.current = true;
+      if (!commandInput.trim()) {
+        return;
+      }
+    }
+
     await execute(commandInput);
     setCommandInput('');
   };

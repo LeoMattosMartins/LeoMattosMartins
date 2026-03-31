@@ -17,6 +17,7 @@
     "helpBlurbBody": "Portafolio interactivo tipo terminal para mostrar mis proyectos, experiencia y enfoque de ingeniería.",
     "helpUsageHistory": "Usa Flecha Arriba/Flecha Abajo para navegar por el historial de comandos.",
     "helpUsageAutocomplete": "Usa Tab para autocompletar comandos y la pista de ghost text mientras escribes.",
+    "helpUsageSkip": "Pulsa Enter para saltar las animaciones de escritura mientras la salida aún se está renderizando.",
     "helpUsageAccessibility": "Usa los controles de la barra para tema y alto contraste; pulsa Esc para cerrar el panel de proyectos.",
     "helpHeader": "COMANDO         DESCRIPCIÓN",
     "loadingProjects": "Cargando stream de proyectos...",

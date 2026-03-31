@@ -17,6 +17,7 @@
     "helpBlurbBody": "Portfólio interativo em terminal para mostrar meus projetos, experiência e foco em engenharia.",
     "helpUsageHistory": "Use Seta para Cima/Seta para Baixo para navegar no histórico de comandos.",
     "helpUsageAutocomplete": "Use Tab para autocompletar comandos e a dica em ghost text durante a digitação.",
+    "helpUsageSkip": "Pressione Enter para pular as animações de digitação enquanto a saída ainda estiver sendo renderizada.",
     "helpUsageAccessibility": "Use os controles da barra para tema e alto contraste; pressione Esc para fechar o painel de projetos.",
     "helpHeader": "COMANDO         DESCRIÇÃO",
     "loadingProjects": "Carregando stream de projetos...",

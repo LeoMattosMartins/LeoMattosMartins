@@ -17,6 +17,7 @@
     "helpBlurbBody": "Interactive terminal portfolio showcasing my projects, work, and engineering focus.",
     "helpUsageHistory": "Use ArrowUp/ArrowDown to navigate command history.",
     "helpUsageAutocomplete": "Use Tab to autocomplete commands and use the ghost text hint while typing.",
+    "helpUsageSkip": "Press Enter to skip typing animations when output is still rendering.",
     "helpUsageAccessibility": "Use toolbar controls for theme and high contrast; press Esc to close the project panel.",
     "helpHeader": "COMMAND         DESCRIPTION",
     "loadingProjects": "Loading project stream...",
