@@ -1,17 +1,17 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.271339893341064,
-  "n_files"            : 402,
-  "n_lines"            : 55883,
-  "files_per_second"   : 1481.53666256034,
-  "lines_per_second"   : 205952.023168805,
+  "elapsed_seconds"    : 0.296247959136963,
+  "n_files"            : 421,
+  "n_lines"            : 56885,
+  "files_per_second"   : 1421.10683640309,
+  "lines_per_second"   : 192018.200448431,
   "report_file"        : "../output/cloc-output.json"},
 "C" :{
   "nFiles": 52,
-  "blank": 2146,
-  "comment": 3670,
-  "code": 7285},
+  "blank": 2161,
+  "comment": 3672,
+  "code": 7372},
 "TypeScript" :{
   "nFiles": 35,
   "blank": 672,
@@ -22,26 +22,31 @@
   "blank": 1312,
   "comment": 1872,
   "code": 4965},
+"Python" :{
+  "nFiles": 56,
+  "blank": 1074,
+  "comment": 1006,
+  "code": 3379},
 "C/C++ Header" :{
   "nFiles": 30,
   "blank": 846,
   "comment": 1565,
   "code": 3183},
-"Python" :{
-  "nFiles": 41,
-  "blank": 949,
-  "comment": 1005,
-  "code": 2905},
 "Arduino Sketch" :{
   "nFiles": 16,
-  "blank": 502,
-  "comment": 628,
-  "code": 2127},
+  "blank": 511,
+  "comment": 636,
+  "code": 2148},
 "Jupyter Notebook" :{
   "nFiles": 6,
   "blank": 0,
   "comment": 4357,
   "code": 2009},
+"JavaScript" :{
+  "nFiles": 32,
+  "blank": 162,
+  "comment": 53,
+  "code": 1129},
 "Linker Script" :{
   "nFiles": 8,
   "blank": 227,
@@ -52,11 +57,6 @@
   "blank": 181,
   "comment": 4,
   "code": 1013},
-"JavaScript" :{
-  "nFiles": 29,
-  "blank": 132,
-  "comment": 53,
-  "code": 947},
 "Java" :{
   "nFiles": 14,
   "blank": 284,
@@ -77,6 +77,11 @@
   "blank": 91,
   "comment": 132,
   "code": 262},
+"Bourne Shell" :{
+  "nFiles": 3,
+  "blank": 32,
+  "comment": 36,
+  "code": 168},
 "Go" :{
   "nFiles": 4,
   "blank": 37,
@@ -87,11 +92,6 @@
   "blank": 15,
   "comment": 2,
   "code": 140},
-"Bourne Shell" :{
-  "nFiles": 2,
-  "blank": 23,
-  "comment": 36,
-  "code": 129},
 "C++" :{
   "nFiles": 1,
   "blank": 19,
@@ -128,7 +128,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 7618,
-  "comment": 14769,
-  "code": 33496,
-  "nFiles": 402} }
+  "blank": 7806,
+  "comment": 14780,
+  "code": 34299,
+  "nFiles": 421} }
