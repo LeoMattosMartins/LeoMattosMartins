@@ -1,3 +1,20 @@
+
+```text
+TOTAL LINES OF CODE: 63,616
+----------------------------------------
+C/C++               45,349 lines
+Python               5,588 lines
+JS/TypeScript        6,362 lines
+Verilog              4,965 lines
+Java                   889 lines
+Bash                   168 lines
+Go                     156 lines
+MATLAB                  82 lines
+PHP                     57 lines
+----------------------------------------
+Last Updated: 2026-04-05 03:28 UTC
+```
+
 # Currently Working On
 
  * _[MakeyDooey](https://github.com/MakeyDooey)_: An end-to-end development platform for real-time control applications, combining the accessibility of hobbyist microcontroller boards with the safety and robustness of industrial PLCs. The platform encompasses: a set of custom embedded boards, each with ruggedized modular enclosures, firmware for real-time deterministic control, a progressive web app IDE, and a demo element showcasing the extent of our platform’s capabilities involving the fine movement of a prosthetic hard. (2026 BU ECE Senior Design Project #13)

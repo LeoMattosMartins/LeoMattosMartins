@@ -1,17 +1,22 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.296247959136963,
-  "n_files"            : 421,
-  "n_lines"            : 56885,
-  "files_per_second"   : 1421.10683640309,
-  "lines_per_second"   : 192018.200448431,
+  "elapsed_seconds"    : 0.438646078109741,
+  "n_files"            : 525,
+  "n_lines"            : 127554,
+  "files_per_second"   : 1196.8646847645,
+  "lines_per_second"   : 290790.243810383,
   "report_file"        : "../output/cloc-output.json"},
+"C/C++ Header" :{
+  "nFiles": 109,
+  "blank": 8301,
+  "comment": 25153,
+  "code": 24886},
 "C" :{
-  "nFiles": 52,
-  "blank": 2161,
-  "comment": 3672,
-  "code": 7372},
+  "nFiles": 75,
+  "blank": 3932,
+  "comment": 7237,
+  "code": 18217},
 "TypeScript" :{
   "nFiles": 35,
   "blank": 672,
@@ -27,21 +32,16 @@
   "blank": 1074,
   "comment": 1006,
   "code": 3379},
-"C/C++ Header" :{
-  "nFiles": 30,
-  "blank": 846,
-  "comment": 1565,
-  "code": 3183},
+"Jupyter Notebook" :{
+  "nFiles": 7,
+  "blank": 0,
+  "comment": 5897,
+  "code": 2209},
 "Arduino Sketch" :{
   "nFiles": 16,
   "blank": 511,
   "comment": 636,
   "code": 2148},
-"Jupyter Notebook" :{
-  "nFiles": 6,
-  "blank": 0,
-  "comment": 4357,
-  "code": 2009},
 "JavaScript" :{
   "nFiles": 32,
   "blank": 162,
@@ -113,10 +113,10 @@
   "comment": 2,
   "code": 57},
 "INI" :{
-  "nFiles": 7,
+  "nFiles": 8,
   "blank": 0,
   "comment": 0,
-  "code": 19},
+  "code": 21},
 "Dockerfile" :{
   "nFiles": 1,
   "blank": 4,
@@ -128,7 +128,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 7806,
-  "comment": 14780,
-  "code": 34299,
-  "nFiles": 421} }
+  "blank": 17032,
+  "comment": 43473,
+  "code": 67049,
+  "nFiles": 525} }
