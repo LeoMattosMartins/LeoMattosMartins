@@ -1,22 +1,22 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.604889869689941,
-  "n_files"            : 617,
-  "n_lines"            : 187400,
-  "files_per_second"   : 1020.02038869698,
-  "lines_per_second"   : 309808.461656101,
+  "elapsed_seconds"    : 0.62569785118103,
+  "n_files"            : 622,
+  "n_lines"            : 187876,
+  "files_per_second"   : 994.090036949863,
+  "lines_per_second"   : 300266.33405465,
   "report_file"        : "../output/cloc-output.json"},
 "C" :{
   "nFiles": 102,
-  "blank": 8217,
-  "comment": 14861,
-  "code": 40359},
+  "blank": 8247,
+  "comment": 14907,
+  "code": 40476},
 "C/C++ Header" :{
   "nFiles": 157,
   "blank": 10506,
   "comment": 39743,
-  "code": 32908},
+  "code": 32909},
 "TypeScript" :{
   "nFiles": 37,
   "blank": 667,
@@ -38,10 +38,10 @@
   "comment": 5897,
   "code": 2209},
 "Arduino Sketch" :{
-  "nFiles": 16,
-  "blank": 511,
-  "comment": 636,
-  "code": 2148},
+  "nFiles": 17,
+  "blank": 528,
+  "comment": 667,
+  "code": 2177},
 "JavaScript" :{
   "nFiles": 32,
   "blank": 162,
@@ -52,6 +52,11 @@
   "blank": 227,
   "comment": 373,
   "code": 1053},
+"Drools" :{
+  "nFiles": 8,
+  "blank": 0,
+  "comment": 0,
+  "code": 1021},
 "JSX" :{
   "nFiles": 8,
   "blank": 181,
@@ -62,11 +67,6 @@
   "blank": 284,
   "comment": 482,
   "code": 889},
-"Drools" :{
-  "nFiles": 4,
-  "blank": 0,
-  "comment": 0,
-  "code": 816},
 "TeX" :{
   "nFiles": 4,
   "blank": 112,
@@ -133,7 +133,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 23694,
-  "comment": 65580,
-  "code": 98126,
-  "nFiles": 617} }
+  "blank": 23741,
+  "comment": 65657,
+  "code": 98478,
+  "nFiles": 622} }
