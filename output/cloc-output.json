@@ -1,11 +1,11 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.62569785118103,
-  "n_files"            : 622,
-  "n_lines"            : 187876,
-  "files_per_second"   : 994.090036949863,
-  "lines_per_second"   : 300266.33405465,
+  "elapsed_seconds"    : 0.589576959609985,
+  "n_files"            : 637,
+  "n_lines"            : 190169,
+  "files_per_second"   : 1080.43570837874,
+  "lines_per_second"   : 322551.614170608,
   "report_file"        : "../output/cloc-output.json"},
 "C" :{
   "nFiles": 102,
@@ -18,20 +18,20 @@
   "comment": 39743,
   "code": 32909},
 "TypeScript" :{
-  "nFiles": 37,
-  "blank": 667,
-  "comment": 320,
-  "code": 5038},
+  "nFiles": 38,
+  "blank": 708,
+  "comment": 345,
+  "code": 5600},
 "Verilog-SystemVerilog" :{
   "nFiles": 119,
   "blank": 1312,
   "comment": 1872,
   "code": 4965},
 "Python" :{
-  "nFiles": 66,
-  "blank": 1209,
-  "comment": 1027,
-  "code": 3824},
+  "nFiles": 72,
+  "blank": 1363,
+  "comment": 1093,
+  "code": 4429},
 "Jupyter Notebook" :{
   "nFiles": 7,
   "blank": 0,
@@ -43,10 +43,10 @@
   "comment": 667,
   "code": 2177},
 "JavaScript" :{
-  "nFiles": 32,
-  "blank": 162,
-  "comment": 53,
-  "code": 1129},
+  "nFiles": 39,
+  "blank": 230,
+  "comment": 84,
+  "code": 1492},
 "Linker Script" :{
   "nFiles": 8,
   "blank": 227,
@@ -68,10 +68,10 @@
   "comment": 482,
   "code": 889},
 "TeX" :{
-  "nFiles": 4,
-  "blank": 112,
+  "nFiles": 5,
+  "blank": 172,
   "comment": 62,
-  "code": 534},
+  "code": 852},
 "make" :{
   "nFiles": 7,
   "blank": 91,
@@ -133,7 +133,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 23741,
-  "comment": 65657,
-  "code": 98478,
-  "nFiles": 622} }
+  "blank": 24064,
+  "comment": 65779,
+  "code": 100326,
+  "nFiles": 637} }
