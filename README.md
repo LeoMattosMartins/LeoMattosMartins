@@ -1,21 +1,4 @@
 
-```text
-TOTAL LINES OF CODE: 104,570
-----------------------------------------
-C/C++               75,660 lines
-Python              15,426 lines
-JS/TypeScript        7,092 lines
-Verilog              4,965 lines
-Java                   889 lines
-Bash                   243 lines
-Go                     156 lines
-MATLAB                  82 lines
-PHP                     57 lines
-----------------------------------------
-Last Updated: 2026-05-31 04:42 UTC
-```
-
-
 
 # Currently Working On
 
@@ -34,10 +17,10 @@ Last Updated: 2026-05-31 04:42 UTC
 
 
 ```text
-TOTAL LINES OF CODE: 100,958
+TOTAL LINES OF CODE: 104,570
 ----------------------------------------
 C/C++               75,660 lines
-Python              11,814 lines
+Python              15,426 lines
 JS/TypeScript        7,092 lines
 Verilog              4,965 lines
 Java                   889 lines
@@ -46,8 +29,10 @@ Go                     156 lines
 MATLAB                  82 lines
 PHP                     57 lines
 ----------------------------------------
-Last Updated: 2026-05-10 04:01 UTC
+Last Updated: 2026-05-31 04:42 UTC
 ```
+
+
 ## Libraries and Frameworks
 
 * Languages & Databases: Python, C/C++, Go, Java, JavaScript, SQL, PostgreSQL, MongoDB
