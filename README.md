@@ -1,4 +1,21 @@
 
+```text
+TOTAL LINES OF CODE: 106,374
+----------------------------------------
+C/C++               75,660 lines
+Python              17,205 lines
+JS/TypeScript        7,117 lines
+Verilog              4,965 lines
+Java                   889 lines
+Bash                   243 lines
+Go                     156 lines
+MATLAB                  82 lines
+PHP                     57 lines
+----------------------------------------
+Last Updated: 2026-06-07 04:48 UTC
+```
+
+
 
 # Currently Working On
 
