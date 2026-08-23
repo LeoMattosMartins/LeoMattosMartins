@@ -1,57 +1,67 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 0.671406030654907,
-  "n_files"            : 724,
-  "n_lines"            : 209735,
-  "files_per_second"   : 1078.33407348723,
-  "lines_per_second"   : 312381.763677962,
+  "elapsed_seconds"    : 4.10583996772766,
+  "n_files"            : 5075,
+  "n_lines"            : 979982,
+  "files_per_second"   : 1236.04427836692,
+  "lines_per_second"   : 238680.028374891,
   "report_file"        : "../output/cloc-output.json"},
+"Python" :{
+  "nFiles": 2465,
+  "blank": 72440,
+  "comment": 64761,
+  "code": 298373},
+"TypeScript" :{
+  "nFiles": 1222,
+  "blank": 15027,
+  "comment": 24703,
+  "code": 136451},
+"JavaScript" :{
+  "nFiles": 79,
+  "blank": 3865,
+  "comment": 13620,
+  "code": 128494},
 "C" :{
-  "nFiles": 102,
-  "blank": 8247,
-  "comment": 14907,
-  "code": 40476},
+  "nFiles": 98,
+  "blank": 8213,
+  "comment": 14883,
+  "code": 40211},
 "C/C++ Header" :{
   "nFiles": 157,
   "blank": 10506,
   "comment": 39743,
   "code": 32909},
-"Python" :{
-  "nFiles": 155,
-  "blank": 4556,
-  "comment": 4266,
-  "code": 16844},
-"TypeScript" :{
-  "nFiles": 38,
-  "blank": 708,
-  "comment": 345,
-  "code": 5600},
+"Ruby" :{
+  "nFiles": 688,
+  "blank": 6134,
+  "comment": 5798,
+  "code": 27263},
 "Verilog-SystemVerilog" :{
   "nFiles": 119,
   "blank": 1312,
   "comment": 1872,
   "code": 4965},
+"JSX" :{
+  "nFiles": 16,
+  "blank": 346,
+  "comment": 18,
+  "code": 3237},
+"Bourne Shell" :{
+  "nFiles": 49,
+  "blank": 563,
+  "comment": 524,
+  "code": 2588},
 "Jupyter Notebook" :{
   "nFiles": 7,
   "blank": 0,
   "comment": 5897,
   "code": 2209},
 "Arduino Sketch" :{
-  "nFiles": 17,
-  "blank": 528,
-  "comment": 667,
-  "code": 2177},
-"JSX" :{
-  "nFiles": 10,
-  "blank": 241,
-  "comment": 17,
-  "code": 1697},
-"JavaScript" :{
-  "nFiles": 41,
-  "blank": 232,
-  "comment": 85,
-  "code": 1517},
+  "nFiles": 15,
+  "blank": 480,
+  "comment": 641,
+  "code": 1978},
 "Linker Script" :{
   "nFiles": 8,
   "blank": 227,
@@ -72,16 +82,31 @@
   "blank": 172,
   "comment": 62,
   "code": 852},
+"INI" :{
+  "nFiles": 20,
+  "blank": 184,
+  "comment": 0,
+  "code": 804},
+"ERB" :{
+  "nFiles": 37,
+  "blank": 147,
+  "comment": 5,
+  "code": 705},
+"Dockerfile" :{
+  "nFiles": 27,
+  "blank": 201,
+  "comment": 176,
+  "code": 414},
 "make" :{
+  "nFiles": 9,
+  "blank": 104,
+  "comment": 142,
+  "code": 301},
+"HCL" :{
   "nFiles": 7,
-  "blank": 91,
-  "comment": 132,
-  "code": 262},
-"Bourne Shell" :{
-  "nFiles": 4,
-  "blank": 52,
-  "comment": 36,
-  "code": 243},
+  "blank": 57,
+  "comment": 4,
+  "code": 294},
 "Go" :{
   "nFiles": 4,
   "blank": 37,
@@ -117,23 +142,18 @@
   "blank": 14,
   "comment": 2,
   "code": 57},
-"Dockerfile" :{
-  "nFiles": 2,
-  "blank": 7,
-  "comment": 2,
-  "code": 26},
-"INI" :{
-  "nFiles": 8,
-  "blank": 0,
+"Mako" :{
+  "nFiles": 3,
+  "blank": 24,
   "comment": 0,
-  "code": 21},
+  "code": 56},
 "ProGuard" :{
   "nFiles": 1,
   "blank": 3,
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 27319,
-  "comment": 68966,
-  "code": 113450,
-  "nFiles": 724} }
+  "blank": 120442,
+  "comment": 173784,
+  "code": 685756,
+  "nFiles": 5075} }
