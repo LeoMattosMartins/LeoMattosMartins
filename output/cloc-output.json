@@ -1,22 +1,22 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.98",
-  "elapsed_seconds"    : 9.85548186302185,
-  "n_files"            : 7920,
-  "n_lines"            : 1855638,
-  "files_per_second"   : 803.613675117819,
-  "lines_per_second"   : 188284.857685389,
+  "elapsed_seconds"    : 14.015547990799,
+  "n_files"            : 8213,
+  "n_lines"            : 1926613,
+  "files_per_second"   : 585.992071476031,
+  "lines_per_second"   : 137462.552392871,
   "report_file"        : "../output/cloc-output.json"},
 "Python" :{
-  "nFiles": 4136,
-  "blank": 171987,
-  "comment": 175397,
-  "code": 671072},
+  "nFiles": 4332,
+  "blank": 181014,
+  "comment": 180419,
+  "code": 706990},
 "TypeScript" :{
-  "nFiles": 2259,
-  "blank": 37836,
-  "comment": 91176,
-  "code": 325835},
+  "nFiles": 2352,
+  "blank": 39663,
+  "comment": 93482,
+  "code": 342734},
 "JavaScript" :{
   "nFiles": 105,
   "blank": 4025,
@@ -33,10 +33,10 @@
   "comment": 39743,
   "code": 32909},
 "Ruby" :{
-  "nFiles": 765,
-  "blank": 7479,
-  "comment": 8354,
-  "code": 32805},
+  "nFiles": 769,
+  "blank": 7468,
+  "comment": 8365,
+  "code": 32781},
 "Verilog-SystemVerilog" :{
   "nFiles": 119,
   "blank": 1312,
@@ -158,7 +158,7 @@
   "comment": 18,
   "code": 0},
 "SUM": {
-  "blank": 244620,
-  "comment": 354512,
-  "code": 1256506,
-  "nFiles": 7920} }
+  "blank": 255463,
+  "comment": 361851,
+  "code": 1309299,
+  "nFiles": 8213} }
